@@ -25,7 +25,9 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
         <property name="dataSource" ref="dataSource"/> 
         <property name="mappingResources"> 
             <list> 
-                <value>com/memberd/model/member.hbm.xml</value>  
+                <value>com/member/model/member.hbm.xml</value> 
+                <value>com/message/model/message.hbm.xml</value> 
+                <value>com/replymessage/model/replymessage.hbm.xml</value>   
             </list> 
         </property> 
         <property name="hibernateProperties"> 
@@ -43,7 +45,15 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
         <property name="sessionFactory" ref="sessionFactory"/> 
     </bean>    
          
-    <bean id="billboardDAO" class="com.billboard.model.BillboardDAO">
+     <bean id="messageDAO" class="com.message.model.MessageDAO">
+        <property name="hibernateTemplate" ref="hibernateTemplate"/> 
+    </bean>
+    
+    <bean id="replymessageDAO" class="com.replymessage.model.ReplyMessageDAO">
+        <property name="hibernateTemplate" ref="hibernateTemplate"/> 
+    </bean>
+
+    <bean id="memberDAO" class="com.member.model.MemberDAO">
         <property name="hibernateTemplate" ref="hibernateTemplate"/> 
     </bean>
 
@@ -67,8 +77,18 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
     </tx:advice>
   	
     <aop:config>
-        <aop:pointcut id="billboardDAOPointcut" expression="execution(* com.billboard.model.BillboardDAO_interface.*(..))"/>
-        <aop:advisor advice-ref="txAdvice" pointcut-ref="billboardDAOPointcut"/>
+        <aop:pointcut id="messageDAOPointcut" expression="execution(* com.message.model.MessageDAO_interface.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="messageDAOPointcut"/>
+    </aop:config>
+    
+    <aop:config>
+        <aop:pointcut id="replymessageDAOPointcut" expression="execution(* com.replymessage.model.ReplyMessageDAO_interface.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="replymessageDAOPointcut"/>
+    </aop:config>
+    
+    <aop:config>
+        <aop:pointcut id="memberDAOPointcut" expression="execution(* com.member.model.MemberDAO_interface.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="memberDAOPointcut"/>
     </aop:config>
     
     

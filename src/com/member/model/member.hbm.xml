@@ -14,19 +14,19 @@
         <property name="mem_joindate" column="mem_joindate" />
         <property name="mem_photo" column="mem_photo" />
 
-		<set name="messages" table="message" lazy="false" cascade="all"  inverse="true">			
+		<set name="messages" table="message" lazy="false" cascade="delete"  inverse="true">			
 			<key>
 				<column name="mem_no" />
 			</key>
 			<one-to-many class="com.message.model.MessageVO" />
 		</set>
 		
-<!-- 		<set name="replymessages" table="replymessage" lazy="false" cascade="all"  inverse="true">			 -->
-<!-- 			<key> -->
-<!-- 				<column name="mem_no" /> -->
-<!-- 			</key> -->
-<!-- 			<one-to-many class="com.replymessage.model.ReplyMessageVO" /> -->
-<!-- 		</set> -->
+		<set name="replymessages" table="replymessage" lazy="false" cascade="delete"  inverse="true">			
+			<key>
+				<column name="mem_no" />
+			</key>
+			<one-to-many class="com.replymessage.model.ReplyMessageVO" />
+		</set>
         
     </class>
 </hibernate-mapping>

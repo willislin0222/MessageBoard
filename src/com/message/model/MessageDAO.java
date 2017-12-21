@@ -7,6 +7,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 
+import com.member.model.MemberVO;
 import com.replymessage.model.ReplyMessageVO;
 
 public class MessageDAO implements MessageDAO_interface{
@@ -33,16 +34,16 @@ public class MessageDAO implements MessageDAO_interface{
 
 	@Override
 	public void delete(Integer mes_no) {
-		MessageVO messageVO = new MessageVO();
+//		MessageVO messageVO = new MessageVO();
 //		messageVO.getReplymessages().remove(mes_no);
-		messageVO.setMes_no(mes_no);
-//		MessageVO messageVO = hibernateTemplate.get(MessageVO.class, mes_no);
+//		messageVO.setMes_no(mes_no);
+		MessageVO messageVO = (MessageVO) hibernateTemplate.get(MessageVO.class, mes_no);
 		hibernateTemplate.delete(messageVO);
 	}
 
 	@Override
 	public MessageVO findPrimaryKey(Integer mes_no) {
-		MessageVO messageVO = (MessageVO) hibernateTemplate.get(MessageVO.class, mes_no);
+		MessageVO messageVO =hibernateTemplate.get(MessageVO.class, mes_no);
 		return messageVO;
 	}
 
@@ -72,10 +73,10 @@ public class MessageDAO implements MessageDAO_interface{
 //
 //		MessageVO messageVO1 = new MessageVO();
 //		MemberVO memberVO = new MemberVO();
-//		memberVO.setMem_no(9);
+//		memberVO.setMem_no(3);
 //		messageVO1.setMemberVO(memberVO);
-//		messageVO1.setMes_title("1324");
-//		messageVO1.setMes_text("5678");
+//		messageVO1.setMes_title("ccc");
+//		messageVO1.setMes_text("ccc");
 //		messageVO1.setMes_date(new java.sql.Date(System.currentTimeMillis()));
 //		dao.insert(messageVO1);
 
@@ -96,7 +97,7 @@ public class MessageDAO implements MessageDAO_interface{
 
 		//● 刪除(小心cascade - 多方reservation.hbm.xml如果設為 cascade="all"或
 		// cascade="delete"將會刪除所有相關資料-包括所屬部門與同部門的其它員工將會一併被刪除)
-		dao.delete(20);
+//		dao.delete(25);
 
 
 
@@ -119,7 +120,15 @@ public class MessageDAO implements MessageDAO_interface{
 //			System.out.print(amessage.getMes_text() + ",");
 //			System.out.print(amessage.getMes_date() + ",");
 //		}
-
+		//取得此留言版的所有回復資料
+//		Set<ReplyMessageVO> set = dao.findPrimaryKey(33).getReplymessages();
+//		for (ReplyMessageVO areplymessage : set) {
+//			System.out.print(areplymessage.getRep_no() + ",");
+//			System.out.print(areplymessage.getMemberVO().getMem_id() + ",");
+//			System.out.print(areplymessage.getMessageVO().getMes_title() + ",");
+//			System.out.print(areplymessage.getRep_text() + ",");
+//			System.out.print(areplymessage.getRep_date() + ",");
+//		}
 
 	}
 

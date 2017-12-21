@@ -64,9 +64,9 @@ public class ReplyMessageDAO implements ReplyMessageDAO_interface{
 //
 //		ReplyMessageVO replymessageVO1 = new ReplyMessageVO();
 //		MemberVO memberVO = new MemberVO();
-//		memberVO.setMem_no(3);
+//		memberVO.setMem_no(2);
 //		MessageVO messageVO = new MessageVO();
-//		messageVO.setMes_no(20);
+//		messageVO.setMes_no(33);
 //		replymessageVO1.setMemberVO(memberVO);
 //		replymessageVO1.setMessageVO(messageVO);
 //		replymessageVO1.setRep_text("5678");
@@ -92,7 +92,7 @@ public class ReplyMessageDAO implements ReplyMessageDAO_interface{
 
 		//● 刪除(小心cascade - 多方reservation.hbm.xml如果設為 cascade="all"或
 		// cascade="delete"將會刪除所有相關資料-包括所屬部門與同部門的其它員工將會一併被刪除)
-//		dao.delete(10);
+//		dao.delete(28);
 
 
 

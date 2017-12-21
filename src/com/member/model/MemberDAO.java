@@ -94,7 +94,7 @@ public class MemberDAO implements MemberDAO_interface{
 
 		//● 刪除(小心cascade - 多方reservation.hbm.xml如果設為 cascade="all"或
 		// cascade="delete"將會刪除所有相關資料-包括所屬部門與同部門的其它員工將會一併被刪除)
-		dao.delete(9);
+//		dao.delete(11);
 
 
 
@@ -117,9 +117,24 @@ public class MemberDAO implements MemberDAO_interface{
 //			System.out.print(amember.getMem_joindate() + ",");
 //			System.out.print(amember.getMem_photo() + ",");
 //		}
-
-
+		////取得此會員所有發布的留言
+//		Set<MessageVO> set=dao.findPrimaryKey(3).getMessages();
+//		for (MessageVO amessage : set) {
+//			System.out.print(amessage.getMes_no() + ",");
+//			System.out.print(amessage.getMemberVO().getMem_id() + ",");
+//			System.out.print(amessage.getMes_title() + ",");
+//			System.out.print(amessage.getMes_text() + ",");
+//			System.out.print(amessage.getMes_date() + ",");
+//		}
+		//取得此會員所有回復資料
+//		Set<ReplyMessageVO> set2=dao.findPrimaryKey(1).getReplymessages();
+//		for (ReplyMessageVO areplymessage : set2) {
+//		System.out.print(areplymessage.getRep_no() + ",");
+//		System.out.print(areplymessage.getMemberVO().getMem_id() + ",");
+//		System.out.print(areplymessage.getMessageVO().getMes_title() + ",");
+//		System.out.print(areplymessage.getRep_text() + ",");
+//		System.out.print(areplymessage.getRep_date() + ",");
+//		}
 	}
-
 
 }
