@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.replymessage.model.ReplyMessageVO" table="replymessage" >
+        
+     <id name="rep_no" column="rep_no">
+	    <generator class="identity" />
+	</id>
+        
+        <many-to-one name="memberVO" class="com.member.model.MemberVO" lazy="false">
+            <column name="mem_no" />
+        </many-to-one>
+        <many-to-one name="messageVO" class="com.message.model.MessageVO" lazy="false">
+            <column name="mes_no" />
+        </many-to-one>
+        <property name="rep_text" column="rep_text" />
+        <property name="rep_date" column="rep_date" />
+
+        
+    </class>
+</hibernate-mapping>

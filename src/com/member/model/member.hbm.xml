@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.member.model.MemberVO" table="member" >
+        
+     <id name="mem_no" column="mem_no">
+	    <generator class="identity" />
+	</id>
+        
+        <property name="mem_id" column="mem_id" />
+        <property name="mem_psw" column="mem_psw" />
+        <property name="mem_joindate" column="mem_joindate" />
+        <property name="mem_photo" column="mem_photo" />
+
+		<set name="messages" table="message" lazy="false" cascade="all"  inverse="true">			
+			<key>
+				<column name="mem_no" />
+			</key>
+			<one-to-many class="com.message.model.MessageVO" />
+		</set>
+		
+<!-- 		<set name="replymessages" table="replymessage" lazy="false" cascade="all"  inverse="true">			 -->
+<!-- 			<key> -->
+<!-- 				<column name="mem_no" /> -->
+<!-- 			</key> -->
+<!-- 			<one-to-many class="com.replymessage.model.ReplyMessageVO" /> -->
+<!-- 		</set> -->
+        
+    </class>
+</hibernate-mapping>
