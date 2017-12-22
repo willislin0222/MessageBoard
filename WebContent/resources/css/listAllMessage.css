@@ -1,0 +1,29 @@
+.maindiv{
+	margin-bottom: 20px;
+	width: 100%;
+	border-width: 2px;
+	border-style: dashed;
+	border-color: #FFAC55;
+	padding: 5px;
+	float:left;
+}
+.divleft{
+	text-align: center;
+	
+}
+.divright{
+}
+.image{
+	margin-bottom: 20px;
+}
+.replybtn{
+	border-radius: 20px
+}
+.title{
+	margin-bottom: 2px;
+	text-align: center;
+}
+.title2{
+	margin-bottom: 20px;
+	text-align: center;
+}

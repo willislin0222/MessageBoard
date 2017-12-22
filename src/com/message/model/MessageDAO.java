@@ -81,7 +81,6 @@ public class MessageDAO implements MessageDAO_interface{
 //		dao.insert(messageVO1);
 
 
-
 		//● 修改
 //		MessageVO messageVO2 = new MessageVO();
 //		MemberVO memberVO = new MemberVO();
