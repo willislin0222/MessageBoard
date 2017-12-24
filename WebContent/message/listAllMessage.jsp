@@ -29,7 +29,7 @@
 
 		<div class="container">
 			<%@ include file="page1.file" %>
-			<div class="title"><a href="">我要留言</a>|<a href="#">登入管理</a>|目前全部有<font color="red">${rowNumber}</font>筆留言</div>
+			<div class="title"><a href="<%=request.getContextPath()%>/member/checklogin">我要留言</a>|<a href="#">登入管理</a>|目前全部有<font color="red">${rowNumber}</font>筆留言</div>
 			<div class="title">目前每頁顯示<font color="red">${rowsPerPage}</font>則留言 所以分為<font color="red">${pageNumber}</font>頁 請選擇頁數 現在您在 
 				<select onChange="location = this.options[this.selectedIndex].value;"">
 					<c:forEach var="num" begin="1" end="<%=pageNumber%>" step="1">	
