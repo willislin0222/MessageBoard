@@ -108,7 +108,7 @@ public class MemberController {
 		return "member/updateMember";
 	}
 	
-	//新增會員資料
+	//修改會員資料
 	@RequestMapping(method = RequestMethod.POST, value ="updateMember")
 	public String updateMember(ModelMap model, 
 			/***************************1.接收請求參數 - 輸入格式的錯誤處理******************/
