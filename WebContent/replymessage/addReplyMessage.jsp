@@ -142,7 +142,7 @@
           <div class="panel-heading">
             <div class="row">
               <div class="col-xs-6">
-               <a href="#" class="active" id="login-form-link">註冊輸入資料</a>
+               <a href="#" class="active" id="login-form-link">輸入回復資料</a>
               </div>
               
             </div>
@@ -155,25 +155,21 @@
           <div class="panel-body">
             <div class="row">
               <div class="col-lg-12">
-				<form:form  action="insert" enctype="multipart/form-data" modelAttribute="memberVO">
+<!--               modelAttribute="replymessageVO"此程式為將FORM表單封裝成replymessageVO 傳送出的表單在後台可以使用@Valid ReplyMessageVO replyMessageVO來取得整個ReplyMessageVO物件-->
+				<form:form  action="insert" modelAttribute="replymessageVO">   
                   <div class="form-group">
-                    <label for="ID">帳號</label>
-                    <form:input type="text" path="mem_id" id="mem_id" tabindex="1" />
+                    <label for="ID">回覆內容</label>
+                    <form:input type="text" path="rep_text" id="rep_text" tabindex="1" />
                   	<font size="3" style="color:red"><div id="checkid"></div></font>
                   </div>
-                  
-                  <div class="form-group">
-                    <label for="ID">密碼</label>
-                    <form:input type="password" path="mem_psw" id="mem_psw" tabindex="1"/>
-                  </div>
-                  <div class="form-group">
-                    <label for="password">會員相片</label>
-                    <form:input type="file" path="mem_photo" />
-                  </div>             
                   <div class="form-group">
                     <div class="row">
                       <div class="col-sm-6 col-sm-offset-3">
-                        <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="註冊會員">
+						<!--此程式表示將值設定到replymessageVO物件內的MemberVO物件裡面的mem_no -->
+                        <form:input type="hidden" path="MemberVO.mem_no" value="${memberVO.mem_no}"/>
+						<!--此程式表示將值設定到replymessageVO物件內的MessageVO物件裡面的mes_no -->
+                        <form:input type="hidden" path="MessageVO.mes_no" value="${messageVO.mes_no}"/>
+                        <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="回復留言">
                       </div>
                     </div>
                   </div>

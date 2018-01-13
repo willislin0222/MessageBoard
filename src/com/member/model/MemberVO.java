@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.validation.constraints.NotNull;
+
 import com.message.model.MessageVO;
 import com.replymessage.model.ReplyMessageVO;
 
@@ -25,12 +27,16 @@ public class MemberVO {
 	public void setMem_no(Integer mem_no) {
 		this.mem_no = mem_no;
 	}
+	
+	@NotNull(message="會員帳號: 請勿空白")
 	public String getMem_id() {
 		return mem_id;
 	}
 	public void setMem_id(String mem_id) {
 		this.mem_id = mem_id;
 	}
+	
+	@NotNull(message="會員密碼: 請勿空白")
 	public String getMem_psw() {
 		return mem_psw;
 	}

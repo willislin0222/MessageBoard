@@ -1,5 +1,6 @@
 package com.member.model;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -13,6 +14,7 @@ import com.replymessage.model.ReplyMessageVO;
 public class MemberDAO implements MemberDAO_interface{
 
 	private static final String GET_ALL_STMT="From MemberVO";
+	private static final String GET_ONE_BY_MEMID="From MemberVO where mem_id=?";
 	
 	//spring hibernateTemplate
 	private HibernateTemplate hibernateTemplate;
@@ -61,6 +63,17 @@ public class MemberDAO implements MemberDAO_interface{
 	public Set<ReplyMessageVO> getReplyMessagesByMemno(Integer mem_no) {
 		Set<ReplyMessageVO> set = findPrimaryKey(mem_no).getReplymessages();
 		return null;
+	}
+	
+	@Override
+	public MemberVO findByMemid(String mem_id) {
+		List<MemberVO> list = new LinkedList<MemberVO>();
+		MemberVO memberVO = new MemberVO();
+		list = (List<MemberVO>) hibernateTemplate.find(GET_ONE_BY_MEMID, mem_id);
+		for(MemberVO amember:list){
+			memberVO = amember;
+		}
+		return memberVO;
 	}
 	
 	public static void main(String[] args) {
@@ -136,5 +149,7 @@ public class MemberDAO implements MemberDAO_interface{
 //		System.out.print(areplymessage.getRep_date() + ",");
 //		}
 	}
+
+
 
 }

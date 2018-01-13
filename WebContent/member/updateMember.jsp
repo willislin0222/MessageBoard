@@ -3,12 +3,11 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html lang=""><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>會員註冊</title>
+    <title>修改會員資料</title>
     <link rel="stylesheet" href="<%= request.getContextPath()%>/resources/css/member/bootstrap.min.css">
-    <script src='<%= request.getContextPath()%>/js/jquery-1.11.2.min.js'></script>
 
     <style type="text/css">
       #regContainer{
@@ -130,7 +129,9 @@
     -webkit-text-fill-color: transparent;
     -webkit-background-clip: text;
 }
-    </style>  
+    </style>
+   
+
   </head>
   <body>
   
@@ -142,7 +143,7 @@
           <div class="panel-heading">
             <div class="row">
               <div class="col-xs-6">
-               <a href="#" class="active" id="login-form-link">註冊輸入資料</a>
+               <a href="#" class="active" id="login-form-link">修改會員密碼</a>
               </div>
               
             </div>
@@ -151,29 +152,27 @@
           
           
           <%-- 錯誤表列 --%>
+          <s:fielderror cssStyle="color: red" />
         
           <div class="panel-body">
             <div class="row">
               <div class="col-lg-12">
-				<form:form  action="insert" enctype="multipart/form-data" modelAttribute="memberVO">
+				<form:form  action="updateMember" modelAttribute="memberVO">
+
                   <div class="form-group">
                     <label for="ID">帳號</label>
-                    <form:input type="text" path="mem_id" id="mem_id" tabindex="1" />
-                  	<font size="3" style="color:red"><div id="checkid"></div></font>
+                    <form:input type="text" path="mem_id" value="${memberVO.mem_id}" />
                   </div>
                   
                   <div class="form-group">
                     <label for="ID">密碼</label>
-                    <form:input type="password" path="mem_psw" id="mem_psw" tabindex="1"/>
+                    <form:input type="password" path="mem_psw" value="${memberVO.mem_psw}"/>
                   </div>
-                  <div class="form-group">
-                    <label for="password">會員相片</label>
-                    <form:input type="file" path="mem_photo" />
-                  </div>             
+
                   <div class="form-group">
                     <div class="row">
                       <div class="col-sm-6 col-sm-offset-3">
-                        <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="註冊會員">
+                        <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="修改會員密碼">
                       </div>
                     </div>
                   </div>
@@ -185,7 +184,6 @@
       </div>
     </div>
   </div>
-
 </div>
 </body>
 </html>

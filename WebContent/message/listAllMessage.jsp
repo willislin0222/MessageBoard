@@ -26,10 +26,17 @@
 	<body>
 		
 		<h1 class="text-center">Willis留言板！</h1>
-
 		<div class="container">
 			<%@ include file="page1.file" %>
-			<div class="title"><a href="<%=request.getContextPath()%>/member/checklogin">我要留言</a>|<a href="#">登入管理</a>|目前全部有<font color="red">${rowNumber}</font>筆留言</div>
+			<div class="title"><a href="<%=request.getContextPath()%>/message/addMessage">我要留言</a>|
+				<c:if test="${memberVO eq null}">
+					<a href="<%=request.getContextPath()%>/member/loginMember">登入會員</a>
+				</c:if>
+				<c:if test="${memberVO ne null}">
+					<a href="<%=request.getContextPath()%>/member/logout">登出</a>|
+					<a href="<%=request.getContextPath()%>/member/getOneForUpdate?mem_no=${memberVO.mem_no}">修改密碼</a>
+				</c:if>
+			|<a href="#">登入管理</a>|目前全部有<font color="red">${rowNumber}</font>筆留言</div>
 			<div class="title">目前每頁顯示<font color="red">${rowsPerPage}</font>則留言 所以分為<font color="red">${pageNumber}</font>頁 請選擇頁數 現在您在 
 				<select onChange="location = this.options[this.selectedIndex].value;"">
 					<c:forEach var="num" begin="1" end="<%=pageNumber%>" step="1">	
@@ -42,7 +49,7 @@
 					<div class="maindiv">
 						<div class="col-xs-12 col-sm-3 divleft">
 							 <img class="image" src="https://api.fnkr.net/testimg/60x60/00CED1/FFF/?text=img+placeholder"><br>
-							 <a href="#" class="btn btn-default replybtn" role="button">我要回應</a>
+							 <a href="<%=request.getContextPath()%>/replymessage/addReplyMessage?mes_no=${messageVO.mes_no}" class="btn btn-default replybtn" role="button">我要回應</a>
 						</div>
 						<div class="col-xs-12 col-sm-9 divright">
 						     <h4>${messageVO.memberVO.mem_id}於${messageVO.mes_date}發布:</h4>

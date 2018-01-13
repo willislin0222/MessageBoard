@@ -1,5 +1,6 @@
 package com.member.model;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.context.ApplicationContext;
@@ -28,12 +29,12 @@ public class MemberService {
 		dao.delete(mem_no);
 	}
 	
-	public void fingPrimaryKey(Integer mem_no){
-		dao.findPrimaryKey(mem_no);
+	public MemberVO fingPrimaryKey(Integer mem_no){
+		return dao.findPrimaryKey(mem_no);
 	}
 	
-	public void getAll(){
-		dao.getAll();
+	public List<MemberVO> getAll(){
+		return dao.getAll();
 	}
 	
 	public Set<MessageVO> getMessagesByMemno(Integer mem_no){
@@ -42,5 +43,9 @@ public class MemberService {
 	
 	public Set<ReplyMessageVO> geReplyMessagesByMemno(Integer mem_no){
 		return dao.getReplyMessagesByMemno(mem_no);
+	}
+	
+	public MemberVO fingByMemid(String mem_id){
+		return dao.findByMemid(mem_id);
 	}
 }

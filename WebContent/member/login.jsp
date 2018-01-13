@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <!DOCTYPE html>
 <!-- saved from url=(0085)file:///C: -->
@@ -162,22 +162,23 @@
             <hr>
           </div>     
          <%-- 錯誤表列 --%>
-		<s:fielderror fieldName="errorMsg" cssStyle="color: red" />
-
+		
+		
           <div class="panel-body">
             <div class="row">
               <div class="col-lg-12">
-				<s:form  action="login" namespace="/member">
+              	<font style="color:red"><div class="errorblock">${error}</div></font>
+				<form:form  action="login" method="POST" modelAttribute="memberVO">
                   <div class="form-group">
                     <label for="ID">帳號</label>
-                    <input type="text" name="mem_id" id=" ID" tabindex="1" class="form-control" placeholder="ID" value="">
+                    <form:input type="text" path="mem_id" value="" />
                   </div>
 
                   <div class="form-group">
 
 					 <label for="ID">密碼</label>
                   
-                  <input type="password" name="mem_psw" id=" PASWWORD" tabindex="1" class="form-control" placeholder="PASWWORD" value="">
+                  <form:input type="password" path="mem_psw" value=""/>
                   </div>
 
                     
@@ -190,7 +191,7 @@
                       </div>
                     </div>
                   </div>
-				</s:form>
+				</form:form>
               </div>
             </div>
           </div>

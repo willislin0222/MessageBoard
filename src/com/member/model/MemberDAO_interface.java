@@ -13,6 +13,9 @@ public interface MemberDAO_interface {
 	public MemberVO findPrimaryKey(Integer mem_no);
 	public List<MemberVO> getAll();
 	
+	//從會員編號取得個人資料
+	public MemberVO findByMemid(String mem_id);
+	
 	//查詢會員發布的留言紀錄(一對多)(回傳 Set)
     public Set<MessageVO> getMessagesByMemno(Integer mem_no);
     
