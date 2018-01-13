@@ -1,6 +1,6 @@
 package com.member.model;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,7 +13,7 @@ public class MemberVO {
 	private Integer mem_no;
 	private String mem_id;
 	private String mem_psw;
-	private Date mem_joindate;
+	private Timestamp mem_joindate;
 	private byte[] mem_photo;
 	//取得會員發布的全部留言
 	private Set<MessageVO> messages = new HashSet<MessageVO>();
@@ -43,10 +43,11 @@ public class MemberVO {
 	public void setMem_psw(String mem_psw) {
 		this.mem_psw = mem_psw;
 	}
-	public Date getMem_joindate() {
+	
+	public Timestamp getMem_joindate() {
 		return mem_joindate;
 	}
-	public void setMem_joindate(Date mem_joindate) {
+	public void setMem_joindate(Timestamp mem_joindate) {
 		this.mem_joindate = mem_joindate;
 	}
 	public byte[] getMem_photo() {

@@ -2,6 +2,7 @@ package com.member.controller;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpSession;
@@ -82,7 +83,7 @@ public class MemberController {
 		MemberService memberSvc = new MemberService();
 		MemberVO memberVO = new MemberVO();
 		byte[] mem_photo = inputfile.getBytes();  //取得前端傳來的圖片資料
-		Date today = new Date(System.currentTimeMillis());
+		Timestamp today = new Timestamp(System.currentTimeMillis());
 
 		memberVO.setMem_id(mem_id);
 		memberVO.setMem_psw(mem_psw);

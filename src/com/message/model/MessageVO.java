@@ -1,6 +1,6 @@
 package com.message.model;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,7 +12,7 @@ public class MessageVO {
 	private MemberVO memberVO;
 	private String mes_title;
 	private String mes_text;
-	private Date mes_date;
+	private Timestamp mes_date;
 	
 	//取得會員回復的全部留言
 	private Set<ReplyMessageVO> replymessages = new HashSet<ReplyMessageVO>();
@@ -41,10 +41,11 @@ public class MessageVO {
 	public void setMes_text(String mes_text) {
 		this.mes_text = mes_text;
 	}
-	public Date getMes_date() {
+	
+	public Timestamp getMes_date() {
 		return mes_date;
 	}
-	public void setMes_date(Date mes_date) {
+	public void setMes_date(Timestamp mes_date) {
 		this.mes_date = mes_date;
 	}
 	public Set<ReplyMessageVO> getReplymessages() {

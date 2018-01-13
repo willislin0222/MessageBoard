@@ -1,6 +1,6 @@
 package com.replymessage.controller;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpSession;
@@ -42,7 +42,7 @@ public class ReplyMessageController {
 			/***************************2.開始新增資料***************************************/
 			ReplyMessageService replyMessageSvc = new ReplyMessageService();
 			//取得今日日期
-			Date replydata = new Date(System.currentTimeMillis());
+			Timestamp replydata = new Timestamp(System.currentTimeMillis());
 			replyMessageVO.setRep_date(replydata);
 			replyMessageSvc.addReplyMessage(replyMessageVO);
 			/***************************3.新增完成,準備轉交(Send the Success view)***********/

@@ -1,6 +1,6 @@
 package com.replymessage.model;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import com.member.model.MemberVO;
 import com.message.model.MessageVO;
@@ -10,7 +10,7 @@ public class ReplyMessageVO {
 	private MemberVO memberVO;
 	private MessageVO messageVO;
 	private String rep_text;
-	private Date rep_date;
+	private Timestamp rep_date;
 	public Integer getRep_no() {
 		return rep_no;
 	}
@@ -35,12 +35,13 @@ public class ReplyMessageVO {
 	public void setRep_text(String rep_text) {
 		this.rep_text = rep_text;
 	}
-	public Date getRep_date() {
+	public Timestamp getRep_date() {
 		return rep_date;
 	}
-	public void setRep_date(Date rep_date) {
+	public void setRep_date(Timestamp rep_date) {
 		this.rep_date = rep_date;
 	}
+	
 	
 	
 }

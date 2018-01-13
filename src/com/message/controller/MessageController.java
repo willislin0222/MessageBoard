@@ -1,6 +1,6 @@
 package com.message.controller;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpSession;
@@ -39,7 +39,7 @@ public class MessageController {
 			messageVO.setMemberVO((MemberVO)session.getAttribute("memberVO"));
 			messageVO.setMes_title(mes_title);
 			messageVO.setMes_text(mes_text);
-			messageVO.setMes_date(new Date(System.currentTimeMillis()));
+			messageVO.setMes_date(new Timestamp(System.currentTimeMillis()));
 			messageSvc.addMessage(messageVO);
 			/***************************3.新增完成,準備轉交(Send the Success view)***********/
 			return "message/listAllMessage";
