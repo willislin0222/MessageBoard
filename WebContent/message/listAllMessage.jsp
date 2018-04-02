@@ -3,7 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.message.model.*"%>
+<%@ page import="com.member.model.*"%>
 <%
+    pageContext.setAttribute("memberVO", (MemberVO) session.getAttribute("memberVO"));
 	MessageService messageSvc = new MessageService();
 	List<MessageVO> list = messageSvc.getAll();
 	pageContext.setAttribute("list",list);
@@ -59,7 +61,11 @@
 								<div>
 									<c:forEach var="replymessageVO" items="${messageVO.replymessages}">
 										<div class="col-xs-12 col-sm-9 divright">
-										     <h4>${replymessageVO.memberVO.mem_id}於${replymessageVO.rep_date}回復說:</h4>
+										     <h4>${replymessageVO.memberVO.mem_id}於${replymessageVO.rep_date}回復說:
+										     	<c:if test="${memberVO.mem_id == replymessageVO.memberVO.mem_id}">
+													<input type="submit" value="修改留言">
+												</c:if>
+										     </h4>
 										     <h4>${replymessageVO.rep_text}</h4>
 										</div>
 									</c:forEach>
