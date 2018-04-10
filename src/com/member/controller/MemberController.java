@@ -112,12 +112,14 @@ public class MemberController {
 	@RequestMapping(method = RequestMethod.POST, value ="updateMember")
 	public String updateMember(ModelMap model, 
 			/***************************1.接收請求參數 - 輸入格式的錯誤處理******************/
-			@RequestParam("mem_id") String mem_id,
-    		@RequestParam("mem_psw") String mem_psw){
+			@RequestParam("mem_id") String mem_id,@RequestParam("mem_photo") MultipartFile inputfile,
+    		@RequestParam("mem_psw") String mem_psw) throws IOException{
 		/***************************2.開始修改資料***************************************/
 		MemberService memberSvc = new MemberService();
 		MemberVO memberVO = memberSvc.fingByMemid(mem_id);
+		byte[] mem_photo = inputfile.getBytes();  //取得前端傳來的圖片資料
 		memberVO.setMem_psw(mem_psw);
+		memberVO.setMem_photo(mem_photo);
 		memberSvc.updatedMember(memberVO);
 
 		/***************************3.新增完成,準備轉交(Send the Success view)***********/

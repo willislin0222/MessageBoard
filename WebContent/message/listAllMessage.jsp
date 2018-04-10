@@ -50,7 +50,7 @@
 				<c:forEach var="messageVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 					<div class="maindiv">
 						<div class="col-xs-12 col-sm-3 divleft">
-							 <img class="image" src="https://api.fnkr.net/testimg/60x60/00CED1/FFF/?text=img+placeholder"><br>
+							 <img id="image"class="image" src="<%=request.getContextPath()%>/member/MemberPhoto?mem_id=${messageVO.memberVO.mem_id}"><br>
 							 <a href="<%=request.getContextPath()%>/replymessage/addReplyMessage?mes_no=${messageVO.mes_no}" class="btn btn-default replybtn" role="button">我要回應</a>
 						</div>
 						<div class="col-xs-12 col-sm-9 divright">
