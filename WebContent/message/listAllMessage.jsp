@@ -4,6 +4,7 @@
 <%@ page import="java.util.*"%>
 <%@ page import="com.message.model.*"%>
 <%@ page import="com.member.model.*"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%
     pageContext.setAttribute("memberVO", (MemberVO) session.getAttribute("memberVO"));
 	MessageService messageSvc = new MessageService();
@@ -63,7 +64,25 @@
 										<div class="col-xs-12 col-sm-9 divright">
 										     <h4>${replymessageVO.memberVO.mem_id}於${replymessageVO.rep_date}回復說:
 										     	<c:if test="${memberVO.mem_id == replymessageVO.memberVO.mem_id}">
-													<input type="submit" value="修改留言">
+													<a href="<%=request.getContextPath()%>/replymessage/getupdate?rep_no=${replymessageVO.rep_no}" class="btn btn-primary">修改留言</a>
+													<a href='#modal-id1' data-toggle="modal" class="btn btn-primary">刪除</a>
+														<div class="modal fade" id="modal-id1">
+															<div class="modal-dialog">
+																<div class="modal-content">
+																	<div class="modal-header">
+																		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+																		<h4 class="modal-title">刪除確認</h4>
+																	</div>
+																	<div class="modal-body">
+																		您確定要刪除此留言
+																	</div>
+																	<div class="modal-footer">
+																		<button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+																		<a href="<%=request.getContextPath()%>/replymessage/delete?rep_no=${replymessageVO.rep_no}" class="btn btn-primary" role="button">確認</a>
+																	</div>
+																</div>
+															</div>
+														</div>
 												</c:if>
 										     </h4>
 										     <h4>${replymessageVO.rep_text}</h4>
