@@ -16,7 +16,7 @@
 .image{
 	margin-bottom: 20px;
 }
-.replybtn{
+.button{
 	border-radius: 20px
 }
 .title{
@@ -27,7 +27,10 @@
 	margin-bottom: 20px;
 	text-align: center;
 }
-
+#btn{
+	width:70px;
+    border-radius:50%;
+}
 #image{
 	width:70px;
     border-radius:50%;

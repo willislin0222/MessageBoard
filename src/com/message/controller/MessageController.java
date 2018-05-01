@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,6 +17,8 @@ import com.member.model.MemberService;
 import com.member.model.MemberVO;
 import com.message.model.MessageService;
 import com.message.model.MessageVO;
+import com.replymessage.model.ReplyMessageService;
+import com.replymessage.model.ReplyMessageVO;
 
 @Controller
 @MultipartConfig
@@ -56,6 +59,51 @@ public class MessageController {
 			return "message/listAllMessage";
 		
 		
+	}
+	
+	//刪除留言
+	@RequestMapping(method = RequestMethod.GET, value = "delete")
+	public String delete(ModelMap model,HttpSession session,
+			/***************************1.接收請求參數 - 輸入格式的錯誤處理******************/
+			@RequestParam("mes_no") Integer mes_no) {
+			/***************************2.開始新增資料***************************************/
+			MessageService messageSvc = new MessageService();
+			messageSvc.delete(mes_no);
+			/***************************3.新增完成,準備轉交(Send the Success view)***********/
+			return "message/listAllMessage";
+		
+		
+	}
+	
+	//取得修改資料
+	@RequestMapping(method = RequestMethod.GET, value = "getupdate")
+	public String getupdate(ModelMap model,
+			/***************************1.接收請求參數 - 輸入格式的錯誤處理******************/
+			@RequestParam("mes_no") Integer mes_no) {
+			/***************************2.開始取得修改除資料***************************************/
+			MessageService MessageSvc = new MessageService();
+			MessageVO messageVO = new MessageVO();
+			messageVO = MessageSvc.findPrimaryKey(mes_no);
+			model.addAttribute("messageVO", messageVO);
+			/***************************3.新增完成,準備轉交(Send the Success view)***********/
+			return "message/updateMessage";
+			
+			
+	}
+	
+	//修改留言
+	@RequestMapping(method = RequestMethod.POST, value = "update")
+	public String update(ModelMap model,
+			/***************************1.接收請求參數 - 輸入格式的錯誤處理******************/
+			@Valid MessageVO messageVO) {
+			/***************************2.開始取得修改除資料***************************************/
+			MessageService MessageSvc = new MessageService();
+			MessageSvc.updateMessage(messageVO);
+			model.addAttribute("messageVO", messageVO);
+			/***************************3.新增完成,準備轉交(Send the Success view)***********/
+			return "message/listAllMessage";
+			
+			
 	}
 	
 	//登入會員(給message導向登入頁面用)
