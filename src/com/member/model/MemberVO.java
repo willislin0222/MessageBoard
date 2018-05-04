@@ -6,6 +6,8 @@ import java.util.Set;
 
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.message.model.MessageVO;
 import com.replymessage.model.ReplyMessageVO;
 
@@ -28,7 +30,7 @@ public class MemberVO {
 		this.mem_no = mem_no;
 	}
 	
-	@NotNull(message="會員帳號: 請勿空白")
+	@NotEmpty(message="會員帳號: 請勿空白")
 	public String getMem_id() {
 		return mem_id;
 	}
@@ -36,7 +38,7 @@ public class MemberVO {
 		this.mem_id = mem_id;
 	}
 	
-	@NotNull(message="會員密碼: 請勿空白")
+	@NotEmpty(message="會員密碼: 請勿空白")
 	public String getMem_psw() {
 		return mem_psw;
 	}

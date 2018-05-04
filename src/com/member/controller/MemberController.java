@@ -3,22 +3,35 @@ package com.member.controller;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Set;
 
 import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
 
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.member.model.MemberService;
 import com.member.model.MemberVO;
 
 @Controller
 @MultipartConfig
+//@Validated
 @RequestMapping("/member")
 public class MemberController {
 	
@@ -32,19 +45,22 @@ public class MemberController {
 	
 	//登入會員
 	@RequestMapping(method = RequestMethod.POST, value ="login")
-	public String login(ModelMap model,HttpSession session, 
-			/***************************1.接收請求參數 - 輸入格式的錯誤處理******************/
-			@RequestParam("mem_id") String mem_id,
-    		@RequestParam("mem_psw") String mem_psw) throws IOException{
+	public String login(HttpSession session, 
+			/***************************1.接收請求參數 - 輸入格式的錯誤處理******************/		
+			@Valid MemberVO memberVO,BindingResult result,ModelMap model) throws IOException{
 		/***************************2.開始查詢資料***************************************/
 		MemberService memberSvc = new MemberService();
-		MemberVO memberVO = memberSvc.fingByMemid(mem_id);
+		MemberVO getmemberVO = memberSvc.fingByMemid(memberVO.getMem_id());
+		
 		/***************************3.新增完成,準備轉交(Send the Success view)***********/
-		if(memberVO.getMem_no() == null){
+		if(result.hasErrors()){
+			return "member/login";
+		}
+		if(getmemberVO.getMem_no() == null){
 			model.addAttribute("error", "查無帳號");
 			setMember(model);
 			return "member/login";
-		}else if((!mem_psw.equals(memberVO.getMem_psw()))){
+		}else if((!memberVO.getMem_psw().equals(getmemberVO.getMem_psw()))){
 			model.addAttribute("error", "密碼錯誤");
 			setMember(model);
 			return "member/login";
@@ -141,5 +157,17 @@ public class MemberController {
 
 //		return null;
 //    }
+	
+//	@ExceptionHandler(value = { ConstraintViolationException.class })
+//	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
+//	public ModelAndView handleError(HttpServletRequest req,ConstraintViolationException e) {
+//	    Set<ConstraintViolation<?>> violations = e.getConstraintViolations();
+//	    StringBuilder strBuilder = new StringBuilder();
+//	    for (ConstraintViolation<?> violation : violations ) {
+//	          strBuilder.append(violation.getMessage() + "<br>");
+//	    }
+//	    String message = strBuilder.toString();
+//	    return new ModelAndView("/member/login", "message", "請修正以下錯誤:<br>"+message);
+//	}
 
 }
