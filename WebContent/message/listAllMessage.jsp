@@ -6,10 +6,7 @@
 <%@ page import="com.member.model.*"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%
-    pageContext.setAttribute("memberVO", (MemberVO) session.getAttribute("memberVO"));
-	MessageService messageSvc = new MessageService();
-	List<MessageVO> list = messageSvc.getAll();
-	pageContext.setAttribute("list",list);
+//     pageContext.setAttribute("memberVO", (MemberVO) session.getAttribute("memberVO"));
 %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -27,6 +24,8 @@
 		<![endif]-->
 	</head>
 	<body>
+<!-- 		使用JavaBean -->
+		<jsp:useBean id="messageSvc" class="com.message.model.MessageService" scope="request" />
 		
 		<h1 class="text-center">Willis留言板！</h1>
 		<div class="container">
@@ -48,7 +47,7 @@
 				</select>
 			</div>
 			<div class="title2"><lable>搜尋</lable> <input type="text"><button>搜尋</button></div>
-				<c:forEach var="messageVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
+				<c:forEach var="messageVO" items="${messageSvc.all}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 					<div class="maindiv">
 						<div class="col-xs-12 col-sm-3 divleft">
 							 <img id="image"class="image" src="<%=request.getContextPath()%>/member/MemberPhoto?mem_id=${messageVO.memberVO.mem_id}"><br>

@@ -65,7 +65,7 @@ public class MemberController {
 			setMember(model);
 			return "member/login";
 		}else{
-			session.setAttribute("memberVO", memberVO);
+			session.setAttribute("memberVO", getmemberVO);
 			return "message/listAllMessage";
 		}
 		
