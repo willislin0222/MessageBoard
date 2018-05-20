@@ -21,7 +21,6 @@ import com.replymessage.model.ReplyMessageService;
 import com.replymessage.model.ReplyMessageVO;
 
 @Controller
-@MultipartConfig
 @RequestMapping("/message")
 public class MessageController {
 	
@@ -57,7 +56,7 @@ public class MessageController {
 			messageSvc.addMessage(messageVO);
 			/***************************3.新增完成,準備轉交(Send the Success view)***********/
 			return "message/listAllMessage";
-		
+			
 		
 	}
 	
@@ -68,7 +67,10 @@ public class MessageController {
 			@RequestParam("mes_no") Integer mes_no) {
 			/***************************2.開始新增資料***************************************/
 			MessageService messageSvc = new MessageService();
-			messageSvc.delete(mes_no);
+			MessageVO messageVO = messageSvc.findPrimaryKey(mes_no);
+			if(messageVO != null){
+				messageSvc.delete(mes_no);
+			}
 			/***************************3.新增完成,準備轉交(Send the Success view)***********/
 			return "message/listAllMessage";
 		

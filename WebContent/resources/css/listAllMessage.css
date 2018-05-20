@@ -35,3 +35,10 @@
 	width:70px;
     border-radius:50%;
 }
+.addWindow{
+	width:60%;
+	margin-left:20%
+}
+#addtitle{
+	margin-top:20px;
+}

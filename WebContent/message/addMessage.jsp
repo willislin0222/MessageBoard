@@ -8,8 +8,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>會員註冊</title>
     <link rel="stylesheet" href="<%= request.getContextPath()%>/resources/css/member/bootstrap.min.css">
-    <script src='<%= request.getContextPath()%>/js/jquery-1.11.2.min.js'></script>
-
+    <script src="<%=request.getContextPath()%>/resources/js/jquery-3.3.1.min.js"></script>
+	<script src="<%=request.getContextPath()%>/resources/js/toastr.js"></script>
+	<link href="<%=request.getContextPath()%>/resources/css/toastr.css" rel="stylesheet" type="text/css" />
+<!-- 	<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet"> -->
+    
     <style type="text/css">
       #regContainer{
     margin-top: 3%;  
@@ -169,7 +172,7 @@
                   <div class="form-group">
                     <div class="row">
                       <div class="col-sm-6 col-sm-offset-3">
-                        <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="留言">
+                        <input id="addmessage" type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="留言">
                       </div>
                     </div>
                   </div>
@@ -185,3 +188,8 @@
 </div>
 </body>
 </html>
+<script>
+$('#addmessage').click(function () {
+    toastr.success("留言新增成功");
+});
+</script>
