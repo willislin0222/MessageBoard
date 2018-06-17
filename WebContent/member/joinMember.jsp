@@ -151,24 +151,26 @@
           
           
           <%-- 錯誤表列 --%>
-        
+         
           <div class="panel-body">
             <div class="row">
               <div class="col-lg-12">
 				<form:form  action="insert" enctype="multipart/form-data" modelAttribute="memberVO">
+				  <font color="red">${errors}</font><%-- 全部顯示--%>
+				  <font color="red"><form:errors path="*" cssClass="errorblock" element="div" /></font><%-- 全部顯示--%>
+<%-- 				  <font style="color:red"><form:errors cssClass="errorblock"/></font> --%>
                   <div class="form-group">
                     <label for="ID">帳號</label>
                     <form:input type="text" path="mem_id" id="mem_id" tabindex="1" />
                   	<font size="3" style="color:red"><div id="checkid"></div></font>
                   </div>
-                  
                   <div class="form-group">
                     <label for="ID">密碼</label>
                     <form:input type="password" path="mem_psw" id="mem_psw" tabindex="1"/>
                   </div>
                   <div class="form-group">
                     <label for="password">會員相片</label>
-                    <form:input type="file" path="mem_photo" />
+                    <input type="file" name="photo" />
                   </div>             
                   <div class="form-group">
                     <div class="row">

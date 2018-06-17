@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -52,14 +51,16 @@ public class MemberVO {
 	public void setMem_joindate(Timestamp mem_joindate) {
 		this.mem_joindate = mem_joindate;
 	}
+		
+	public Set<MessageVO> getMessages() {
+		return messages;
+	}
+	
 	public byte[] getMem_photo() {
 		return mem_photo;
 	}
 	public void setMem_photo(byte[] mem_photo) {
 		this.mem_photo = mem_photo;
-	}
-	public Set<MessageVO> getMessages() {
-		return messages;
 	}
 	public void setMessages(Set<MessageVO> messages) {
 		this.messages = messages;

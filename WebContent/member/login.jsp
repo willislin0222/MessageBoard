@@ -167,14 +167,13 @@
           <div class="panel-body">
             <div class="row">
               <div class="col-lg-12">
-<%--               	<font style="color:red"><div class="errorblock">${error}</div></font> --%>
-<%-- 				<div class="errorblock">${message}</div>          --%>
 				<form:form  action="login" method="POST" modelAttribute="memberVO">
-				  
-                  <div class="form-group">
+				  <div class="form-group"><font style="color:red">${errors}</font></div>
+				  <div class="form-group"><font style="color:red"><form:errors path="*" cssClass="errorblock"/></font></div>
+				  <div class="form-group">
                     <label for="ID">帳號</label>
                     <form:input type="text" path="mem_id" value="" />
-                    <font style="color:red"><form:errors path="mem_id" cssClass="errorblock"/></font>  
+<%--                     <font style="color:red"><form:errors path="mem_id" cssClass="errorblock"/></font>   --%>
                   </div>
 
                   <div class="form-group">
@@ -182,7 +181,7 @@
 					 <label for="ID">密碼</label>
                   
                   <form:input type="password" path="mem_psw" value=""/>
-                  <font style="color:red"><form:errors path="mem_psw" cssClass="errorblock"/></font>
+<%--                   <font style="color:red"><form:errors path="mem_psw" cssClass="errorblock"/></font> --%>
                   </div>
 
                     

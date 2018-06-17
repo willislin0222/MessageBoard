@@ -9,6 +9,8 @@
     <title>修改會員資料</title>
     <link rel="stylesheet" href="<%= request.getContextPath()%>/resources/css/member/bootstrap.min.css">
     <link rel="stylesheet" href="<%= request.getContextPath()%>/resources/css/member.css">
+    <script src="<%=request.getContextPath()%>/resources/js/jquery-3.3.1.min.js"></script>
+    <script src="<%=request.getContextPath()%>/resources/js/ImageView.js"></script>
 
     <style type="text/css">
       #regContainer{
@@ -162,20 +164,19 @@
 
                   <div class="form-group">
                     <label for="ID">帳號</label>
-                    <form:input type="text" path="mem_id" value="${memberVO.mem_id}" />
+                    <form:input type="text" path="mem_id" value="${memberVO.mem_id}" readonly="true"/>
                   </div>
                   
                   <div class="form-group">
                     <label for="ID">密碼</label>
                     <form:input type="password" path="mem_psw" value="${memberVO.mem_psw}"/>
                   </div>
-                  
+                  <div  id="showimage"></div>
                   <div class="form-group">
                     <label for="password">會員相片</label>
-                    <form:input type="file" path="mem_photo" />
-                    <img id="memimage"class="image" src="<%=request.getContextPath()%>/member/MemberPhoto?mem_id=${memberVO.mem_id}"><br>
+                    <input id="photo" name="photo" type="file" name="photo" />
+                    <img id="memimage" class="image" src="<%=request.getContextPath()%>/member/MemberPhoto?mem_id=${memberVO.mem_id}"><br>
                   </div>   
-
                   <div class="form-group">
                     <div class="row">
                       <div class="col-sm-6 col-sm-offset-3">
@@ -194,3 +195,4 @@
 </div>
 </body>
 </html>
+

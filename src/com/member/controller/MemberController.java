@@ -3,35 +3,28 @@ package com.member.controller;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 
-import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.member.model.MemberService;
 import com.member.model.MemberVO;
 
+
 @Controller
 @MultipartConfig
-//@Validated
 @RequestMapping("/member")
 public class MemberController {
 	
@@ -45,23 +38,23 @@ public class MemberController {
 	
 	//登入會員
 	@RequestMapping(method = RequestMethod.POST, value ="login")
-	public String login(HttpSession session, 
+	public String login(HttpSession session,ModelMap model, 
 			/***************************1.接收請求參數 - 輸入格式的錯誤處理******************/		
-			@Valid MemberVO memberVO,BindingResult result,ModelMap model) throws IOException{
+			@Valid MemberVO memberVO, BindingResult result) throws IOException{	
+			if(result.hasErrors()){
+				return "member/login";
+			}
 		/***************************2.開始查詢資料***************************************/
 		MemberService memberSvc = new MemberService();
 		MemberVO getmemberVO = memberSvc.fingByMemid(memberVO.getMem_id());
 		
 		/***************************3.新增完成,準備轉交(Send the Success view)***********/
-		if(result.hasErrors()){
-			return "member/login";
-		}
 		if(getmemberVO.getMem_no() == null){
-			model.addAttribute("error", "查無帳號");
+			model.addAttribute("errors", "查無帳號");
 			setMember(model);
 			return "member/login";
-		}else if((!memberVO.getMem_psw().equals(getmemberVO.getMem_psw()))){
-			model.addAttribute("error", "密碼錯誤");
+		}else if(!(memberVO.getMem_psw().equals(getmemberVO.getMem_psw()))){
+			model.addAttribute("errors", "密碼錯誤");
 			setMember(model);
 			return "member/login";
 		}else{
@@ -87,22 +80,30 @@ public class MemberController {
 	
 	//新增會員
 	@RequestMapping(method = RequestMethod.POST, value ="insert")
-	public String insert(ModelMap model, 
+	public String insert(ModelMap model,@RequestParam("photo") MultipartFile inputfile, 
 			/***************************1.接收請求參數 - 輸入格式的錯誤處理******************/
-			@RequestParam("mem_photo") MultipartFile inputfile,	
-			@RequestParam("mem_id") String mem_id,
-    		@RequestParam("mem_psw") String mem_psw) throws IOException{
-//		if (result.hasErrors()) {
-//			return "member/addMember";
-//		}
+			@Valid MemberVO memberVO, BindingResult result) throws IOException{
+			MemberService memberSvc = new MemberService();
+			MemberVO checkMember = new MemberVO();
+			checkMember = memberSvc.fingByMemid(memberVO.getMem_id());
+			if(result.hasErrors()){
+				return "member/joinMember";
+			}else if(inputfile.getSize() == 0){
+				model.addAttribute("errors", "請選擇一張照片");
+				return "member/joinMember";
+			}else if(checkMember != null){
+				model.addAttribute("errors", "此帳號已申請過");
+				return "member/joinMember";
+			}
+			
+			
+	
 		/***************************2.開始新增資料***************************************/
-		MemberService memberSvc = new MemberService();
-		MemberVO memberVO = new MemberVO();
 		byte[] mem_photo = inputfile.getBytes();  //取得前端傳來的圖片資料
 		Timestamp today = new Timestamp(System.currentTimeMillis());
 
-		memberVO.setMem_id(mem_id);
-		memberVO.setMem_psw(mem_psw);
+		memberVO.setMem_id(memberVO.getMem_id());
+		memberVO.setMem_psw(memberVO.getMem_psw());
 		memberVO.setMem_joindate(today);
 		memberVO.setMem_photo(mem_photo);
 		memberSvc.addMember(memberVO);
@@ -116,27 +117,30 @@ public class MemberController {
 
 //	前往修改密碼頁面
 	@RequestMapping(method = RequestMethod.GET, value = "getOneForUpdate")
-	public String getOneForUpdate(ModelMap model,@RequestParam("mem_no") Integer mem_no) {
+	public String getOneForUpdate(ModelMap model,@RequestParam("mem_id") String mem_id) {
 		/***************************2.開始查詢資料***************************************/
 		MemberService memberSvc = new MemberService();
-		MemberVO memberVO = memberSvc.fingPrimaryKey(mem_no);
+		MemberVO memberVO = memberSvc.fingByMemid(mem_id);
 		model.addAttribute("memberVO", memberVO);
 		return "member/updateMember";
 	}
 	
 	//修改會員資料
 	@RequestMapping(method = RequestMethod.POST, value ="updateMember")
-	public String updateMember(ModelMap model, 
+	public String updateMember(ModelMap model,@RequestParam("photo") MultipartFile inputfile, 
 			/***************************1.接收請求參數 - 輸入格式的錯誤處理******************/
-			@RequestParam("mem_id") String mem_id,@RequestParam("mem_photo") MultipartFile inputfile,
-    		@RequestParam("mem_psw") String mem_psw) throws IOException{
+			@Valid MemberVO memberVO, BindingResult result) throws IOException{
 		/***************************2.開始修改資料***************************************/
 		MemberService memberSvc = new MemberService();
-		MemberVO memberVO = memberSvc.fingByMemid(mem_id);
+		MemberVO member = memberSvc.fingByMemid(memberVO.getMem_id());
 		byte[] mem_photo = inputfile.getBytes();  //取得前端傳來的圖片資料
-		memberVO.setMem_psw(mem_psw);
-		memberVO.setMem_photo(mem_photo);
-		memberSvc.updatedMember(memberVO);
+		if(inputfile.getSize() == 0){
+			member.setMem_photo(member.getMem_photo());
+		}else{
+			member.setMem_photo(mem_photo);
+		}
+		member.setMem_psw(memberVO.getMem_psw());
+		memberSvc.updatedMember(member);
 
 		/***************************3.新增完成,準備轉交(Send the Success view)***********/
 		model.addAttribute("success", "- (修改成功)");
