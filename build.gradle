@@ -2,17 +2,17 @@ apply plugin: 'java'
 apply plugin: 'war'
 apply plugin: 'eclipse-wtp'
 
-sourceCompatibility = 1.8		         //³]©w½sÄ¶¶¥¬qªºJDKª©¥»
-sourceSets.main.java.srcDir  'src'	     //¨Ï¥Îsrc¥Ø¿ı©ñ¸mJavaµ{¦¡­ì©l½X      (gradle­ì¹w³]¦ì¸m¬Osrc/main/java¥Ø¿ı)
-sourceSets.main.resources.srcDir  'src'	 //¨Ï¥Îsrc¥Ø¿ı©ñ¸mresources­ì©l½X (gradle­ì¹w³]¦ì¸m¬Osrc/main/resources¥Ø¿ı) (¦b¶i¦æcargoRedeployRemote¥H¼ö³¡¸p¶×¥XwarÀÉ®É¡A±N¥i¥]§txmlÀÉ)
+sourceCompatibility = 1.8		         //è¨­å®šç·¨è­¯éšæ®µçš„JDKç‰ˆæœ¬
+sourceSets.main.java.srcDir  'src'	     //ä½¿ç”¨srcç›®éŒ„æ”¾ç½®Javaç¨‹å¼åŸå§‹ç¢¼      (gradleåŸé è¨­ä½ç½®æ˜¯src/main/javaç›®éŒ„)
+sourceSets.main.resources.srcDir  'src'	 //ä½¿ç”¨srcç›®éŒ„æ”¾ç½®resourcesåŸå§‹ç¢¼ (gradleåŸé è¨­ä½ç½®æ˜¯src/main/resourcesç›®éŒ„) (åœ¨é€²è¡ŒcargoRedeployRemoteä»¥ç†±éƒ¨ç½²åŒ¯å‡ºwaræª”æ™‚ï¼Œå°‡å¯åŒ…å«xmlæª”)
                                                                      
-webAppDirName = 'WebContent'		     //¨Ï¥ÎWebContent¥Ø¿ı©ñ¸mºô­¶¸ê·½
+webAppDirName = 'WebContent'		     //ä½¿ç”¨WebContentç›®éŒ„æ”¾ç½®ç¶²é è³‡æº
 									
 repositories {
-	mavenCentral()					     //¨Ï¥Î maven central repository (¤¤¥¡¦sÀx®w)
+	mavenCentral()					     //ä½¿ç”¨ maven central repository (ä¸­å¤®å­˜å„²åº«)
 }
 
-configure(allprojects) { project ->      //¨ç¦¡®w<version>³]©w°ÊºA
+configure(allprojects) { project ->      //å‡½å¼åº«<version>è¨­å®šå‹•æ…‹
     ext.springVersion = "4.3.2.RELEASE"
     ext.hibernateVersion = "5.2.8.Final"
     ext.hibernateValidatorVersion = "5.4.0.Final"
@@ -30,8 +30,8 @@ configure(allprojects) { project ->      //¨ç¦¡®w<version>³]©w°ÊºA
     
 }
 
-//³]¸m¨Ì¿à
-//¦Û¦æ¥[¤J·|¥Î¨ìªº¨ç¦¡®wLibrary®M¥ó¡A®æ¦¡¦p¤U :<groupId> : <artifactId> : <version>
+//è¨­ç½®ä¾è³´
+//è‡ªè¡ŒåŠ å…¥æœƒç”¨åˆ°çš„å‡½å¼åº«Libraryå¥—ä»¶ï¼Œæ ¼å¼å¦‚ä¸‹ :<groupId> : <artifactId> : <version>
 dependencies {
     //spring
     compile("org.springframework:spring-context:${springVersion}")
@@ -46,9 +46,9 @@ dependencies {
     compile("org.hibernate:hibernate-entitymanager:${hibernateVersion}")
     compile("org.hibernate:hibernate-c3p0:${hibernateVersion}")
     compile("org.hibernate:hibernate-proxool:${hibernateVersion}")
-    compile("org.hibernate:hibernate-java8:${hibernateVersion}")   //µù: hibernate 5 ¤~¯à¤ä´© Java 8 
+    compile("org.hibernate:hibernate-java8:${hibernateVersion}")   //è¨»: hibernate 5 æ‰èƒ½æ”¯æ´ Java 8 
     
-    //hibernate-validator (jsr303 Bean Validation) (jsr303 Bean ÅçÃÒ)
+    //hibernate-validator (jsr303 Bean Validation) (jsr303 Bean é©—è­‰)
     compile("org.hibernate:hibernate-validator:${hibernateValidatorVersion}")
     
     //servlet
@@ -80,6 +80,15 @@ dependencies {
     //log4j
     compile("log4j:log4j:${log4jVersion}")
     
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
+	compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.8.8'
+	
+	// https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations
+	compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.8.8'
+
+	// https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+	compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.8.8'
+    
 }
 
 buildscript {
@@ -91,8 +100,8 @@ buildscript {
 	}
 }
 
-//¨Ï¥Îgradle-cargo-plugin¼ö³¡¸p(»´¶q¯Å)war
-//»İ¥ı±Ò°ÊTomcat¡A¨Ã©ótomcat-users.xml²K¥[¡G<user password="manager-script" roles="manager-script" username="manager-script"/>
+//ä½¿ç”¨gradle-cargo-pluginç†±éƒ¨ç½²(è¼•é‡ç´š)war
+//éœ€å…ˆå•Ÿå‹•Tomcatï¼Œä¸¦æ–¼tomcat-users.xmlæ·»åŠ ï¼š<user password="manager-script" roles="manager-script" username="manager-script"/>
 apply plugin: 'com.bmuschko.cargo'
 cargo {
     containerId = 'tomcat8x'
@@ -105,7 +114,7 @@ cargo {
     }
 }
 
-//Eclipse Project Facets ¥u¦³¦b Dynamic Web Project ®É¤~¦³¥\¯à¡A¥u¬O¤è«K"§Ö³tÂX¥R®M¥ó" »P "±±ºŞ®M¥óª©¥»"
+//Eclipse Project Facets åªæœ‰åœ¨ Dynamic Web Project æ™‚æ‰æœ‰åŠŸèƒ½ï¼Œåªæ˜¯æ–¹ä¾¿"å¿«é€Ÿæ“´å……å¥—ä»¶" èˆ‡ "æ§ç®¡å¥—ä»¶ç‰ˆæœ¬"
 import org.gradle.plugins.ide.eclipse.model.Facet
 eclipse {
 	wtp {
@@ -122,7 +131,7 @@ eclipse {
 	}
 }
 
-//¦b¶i¦æcargoRedeployRemote¥H¼ö³¡¸p¶×¥XwarÀÉ®É¡A±N¥i¥]§txmlÀÉ»Pjava­ì©lÀÉ
+//åœ¨é€²è¡ŒcargoRedeployRemoteä»¥ç†±éƒ¨ç½²åŒ¯å‡ºwaræª”æ™‚ï¼Œå°‡å¯åŒ…å«xmlæª”èˆ‡javaåŸå§‹æª”
 war {
     webInf{
         from('src') {

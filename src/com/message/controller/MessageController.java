@@ -2,23 +2,25 @@ package com.message.controller;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.Map;
 
-import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.member.model.MemberService;
 import com.member.model.MemberVO;
 import com.message.model.MessageService;
 import com.message.model.MessageVO;
-import com.replymessage.model.ReplyMessageService;
-import com.replymessage.model.ReplyMessageVO;
 
 @Controller
 @RequestMapping("/message")
@@ -41,21 +43,32 @@ public class MessageController {
 		}
 	}
 	//新增留言
+	@ResponseBody 
 	@RequestMapping(method = RequestMethod.POST, value = "insert")
-	public String insert(ModelMap model,HttpSession session,
+	public Map<String, Object> insert(ModelMap model,HttpSession session,HttpServletRequest request,
 			/***************************1.接收請求參數 - 輸入格式的錯誤處理******************/
-			@RequestParam("mes_title") String mes_title,
-			@RequestParam("mes_text") String mes_text) {
+			@Valid MessageVO messageVO,BindingResult result) {
+			Map<String, Object> map = new HashMap<String, Object>();  
+			MemberVO memberVO = (MemberVO)session.getAttribute("memberVO");
+			if(memberVO == null){
+				map.put("result", "nologin");
+				return map;
+			}else if(result.hasErrors()){
+				map.put("result", "empty");
+				return map;
+			}
 			/***************************2.開始新增資料***************************************/
+		    
 			MessageService messageSvc = new MessageService();
-			MessageVO messageVO = new MessageVO();
+//			MessageVO messageVO = new MessageVO();
 			messageVO.setMemberVO((MemberVO)session.getAttribute("memberVO"));
-			messageVO.setMes_title(mes_title);
-			messageVO.setMes_text(mes_text);
+			messageVO.setMes_title(messageVO.getMes_title());
+			messageVO.setMes_text(messageVO.getMes_text());
 			messageVO.setMes_date(new Timestamp(System.currentTimeMillis()));
 			messageSvc.addMessage(messageVO);
 			/***************************3.新增完成,準備轉交(Send the Success view)***********/
-			return "message/listAllMessage";
+			map.put("result", "success");
+			return map;
 			
 		
 	}

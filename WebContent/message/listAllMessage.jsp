@@ -39,6 +39,7 @@
 							</div>
 							<div class="col-lg-12">
 				                  <div class="form-group">
+<%-- 				                    <td><form:errors path="mes_title" cssClass="error"/></td> --%>
 				                    <label for="ID" id="addtitle">標題</label>
 				                    <input type="text" name="mes_title" id="mes_title" tabindex="1" />
 				                  	<font size="3" style="color:red"><div id="checkid"></div></font>
@@ -125,7 +126,6 @@
 			<%@ include file="page2.file" %>
 		</div>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<input id="addmessage" type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="留言">
 	</body>
 </html>
 <script>
@@ -136,17 +136,27 @@ $(document).ready(function(){
 			    url: "<%=request.getContextPath()%>/message/insert",
 			    data: "mes_title=" + $('#mes_title').val() + "&" + "mes_text=" + $('#mes_text').val(),
 				cache: false,
-				success: function(response){
-					toastr.success("留言新增成功");
-					$('.closeAddMessage').click();				
-<%-- 					url="<%=request.getContextPath()%>/index.jsp" --%>
-// 					window.location.replace(url);
-					window.location.reload(); 	
+				success: function(jsonData){
+					var returndata = eval(jsonData);
+					if(returndata.result == "nologin"){
+						alert("請先登入會員")
+						url="<%=request.getContextPath()%>/member/loginMember"
+						window.location.replace(url);
+					}else if(returndata.result == "empty"){
+						alert("標題內容請勿空白")
+<%-- 						url="<%=request.getContextPath()%>/message/listAllMessage.jsp" --%>
+// 						window.location.replace(url);
+					}else{
+						toastr.success("留言新增成功");
+						$('.closeAddMessage').click();				
+						window.location.reload(); 	
+					}
+				
 				},
-			    error: function(xhr, ajaxOptions, thrownError)
-			    { 
-			    	alert("error")
-			    }
+// 			    error: function(xhr, ajaxOptions, thrownError)
+// 			    { 
+// 			    	alert("error")
+// 			    }
 		 });
 	});
 	
