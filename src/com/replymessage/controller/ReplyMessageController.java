@@ -2,16 +2,21 @@ package com.replymessage.controller;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.member.model.MemberService;
 import com.member.model.MemberVO;
@@ -56,18 +61,32 @@ public class ReplyMessageController {
 //		return "replymessage/addReplyMessage";
 //	}
 	//新增回復
+	@ResponseBody
 	@RequestMapping(method = RequestMethod.POST, value = "insert")
-	public String insert(ModelMap model,@Valid ReplyMessageVO replyMessageVO,
+	public Map<String,Object> insert(ModelMap model,HttpServletRequest request,HttpSession session,
 			/***************************1.接收請求參數 - 輸入格式的錯誤處理******************/
-			@RequestParam("rep_text") String rep_text) {
+			@RequestParam("mes_no") Integer mes_no,@Valid ReplyMessageVO replyMessageVO,BindingResult result) {
+			Map<String, Object> map = new HashMap<String, Object>();  
+			MemberVO memberVO = (MemberVO)session.getAttribute("memberVO");
+			MessageVO messageVO =new MessageVO();
+			messageVO.setMes_no(mes_no);
+			if(memberVO == null){
+				map.put("result", "nologin");
+				return map;
+			}else if(result.hasErrors()){
+				map.put("result", "empty");
+				return map;
+			}
 			/***************************2.開始新增資料***************************************/
 			ReplyMessageService replyMessageSvc = new ReplyMessageService();
 			//取得今日日期
 			Timestamp replydata = new Timestamp(System.currentTimeMillis());
+			replyMessageVO.setMemberVO(memberVO);
+			replyMessageVO.setMessageVO(messageVO);
 			replyMessageVO.setRep_date(replydata);
 			replyMessageSvc.addReplyMessage(replyMessageVO);
 			/***************************3.新增完成,準備轉交(Send the Success view)***********/
-			return "message/listAllMessage";
+			return map;
 			
 			
 	}
@@ -79,7 +98,10 @@ public class ReplyMessageController {
 			@RequestParam("rep_no") Integer rep_no) {
 			/***************************2.開始刪除資料***************************************/
 			ReplyMessageService replyMessageSvc = new ReplyMessageService();
-			replyMessageSvc.delete(rep_no);
+			ReplyMessageVO replyMmessageVO = replyMessageSvc.findPrimaryKey(rep_no);
+			if(replyMmessageVO != null){
+				replyMessageSvc.delete(rep_no);
+			}
 			/***************************3.新增完成,準備轉交(Send the Success view)***********/
 			return "message/listAllMessage";
 			

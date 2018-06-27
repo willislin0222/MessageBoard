@@ -2,6 +2,8 @@ package com.replymessage.model;
 
 import java.sql.Timestamp;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.member.model.MemberVO;
 import com.message.model.MessageVO;
 
@@ -29,6 +31,8 @@ public class ReplyMessageVO {
 	public void setMessageVO(MessageVO messageVO) {
 		this.messageVO = messageVO;
 	}
+	
+	@NotEmpty(message="回應內容: 請勿空白")
 	public String getRep_text() {
 		return rep_text;
 	}

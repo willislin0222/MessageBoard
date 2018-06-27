@@ -25,7 +25,7 @@
 	<body>
 <!-- 		使用JavaBean -->
 		<jsp:useBean id="messageSvc" class="com.message.model.MessageService" scope="request" />
-		
+		<% int count=2;%>
 		<h1 class="text-center">Willis留言板！</h1>
 		<div class="container">
 			<%@ include file="page1.file" %>
@@ -39,7 +39,6 @@
 							</div>
 							<div class="col-lg-12">
 				                  <div class="form-group">
-<%-- 				                    <td><form:errors path="mes_title" cssClass="error"/></td> --%>
 				                    <label for="ID" id="addtitle">標題</label>
 				                    <input type="text" name="mes_title" id="mes_title" tabindex="1" />
 				                  	<font size="3" style="color:red"><div id="checkid"></div></font>
@@ -77,7 +76,30 @@
 					<div class="maindiv">
 						<div class="col-xs-12 col-sm-3 divleft">
 							 <img id="image"class="image" src="<%=request.getContextPath()%>/member/MemberPhoto?mem_id=${messageVO.memberVO.mem_id}"><br>
-							 <a href="<%=request.getContextPath()%>/replymessage/addReplyMessage?mes_no=${messageVO.mes_no}" class="btn btn-primary button" role="button">我要回應</a>
+							 <a href='#modal-id<%= count%>' data-toggle="modal" class="btn btn-primary button" role="button">我要回應</a>
+							 	<div class="modal fade" id="modal-id<%= count%>">
+								<div class="modal-dialog">
+									<div class="modal-content addWindow">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+											<h4 class="modal-title">請輸入回應內容</h4>
+										</div>
+										<div class="col-lg-12">
+							                  <div class="form-group">
+							                    <label for="ID">內容</label>
+							                    <input type="text" name="rep_text" id="rep_text<%= count%>" tabindex="1">
+							                  </div>
+							              </div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-default closeAddMessage" data-dismiss="modal">關閉</button>
+											<button id="addReplyMessageBtn" type="button" class="btn btn-primary" onclick=addReplyMessage(${messageVO.mes_no},<%= count++%>);>回應</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							 	
+							 	
+							 	
 							 	<c:if test="${memberVO.mem_id == messageVO.memberVO.mem_id or memberVO.mem_id.equals('admin')}">
 									 <br><br><a href="<%=request.getContextPath()%>/message/getupdate?mes_no=${messageVO.mes_no}" class="btn btn-primary button">修改留言</a>
 							 	</c:if>
@@ -139,11 +161,11 @@ $(document).ready(function(){
 				success: function(jsonData){
 					var returndata = eval(jsonData);
 					if(returndata.result == "nologin"){
-						alert("請先登入會員")
+						alert("請先登入會員");
 						url="<%=request.getContextPath()%>/member/loginMember"
 						window.location.replace(url);
 					}else if(returndata.result == "empty"){
-						alert("標題內容請勿空白")
+						alert("標題內容請勿空白");
 <%-- 						url="<%=request.getContextPath()%>/message/listAllMessage.jsp" --%>
 // 						window.location.replace(url);
 					}else{
@@ -159,6 +181,34 @@ $(document).ready(function(){
 // 			    }
 		 });
 	});
-	
 });
+
+function addReplyMessage(mes_no,count){
+	$.ajax({
+	    type: "POST",
+	    url: "<%=request.getContextPath()%>/replymessage/insert",
+	    data:{ 
+	    		rep_text : $('#rep_text' + count).val(),
+	    		mes_no : mes_no
+	    
+	    	 },
+		cache: false,
+		success: function(jsonData){
+			var returndata = eval(jsonData);
+			if(returndata.result == "nologin"){
+				alert("請先登入會員");
+				url="<%=request.getContextPath()%>/member/loginMember"
+				window.location.replace(url);
+			}else if(returndata.result == "empty"){
+				alert("回應內容請勿空白");
+//					window.location.replace(url);
+			}else{
+				toastr.success("留言回復成功");
+				$('.closeAddMessage').click();				
+				window.location.reload(); 	
+			}
+		
+		}
+ });
+}
 </script>
