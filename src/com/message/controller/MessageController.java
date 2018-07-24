@@ -26,6 +26,13 @@ import com.message.model.MessageVO;
 @RequestMapping("/message")
 public class MessageController {
 	
+	
+	//前往留言頁面
+	@RequestMapping(method = RequestMethod.GET, value = "index")
+	public String index(ModelMap model,HttpSession session) {
+		return "message/listAllMessage";
+	}
+	
 	//前往新增留言頁面
 	@RequestMapping(method = RequestMethod.GET, value = "addMessage")
 	public String addMessage(ModelMap model,HttpSession session) {

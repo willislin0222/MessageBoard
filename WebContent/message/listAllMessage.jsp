@@ -71,7 +71,8 @@
 					</c:forEach>
 				</select>
 			</div>
-			<div class="title2"><lable>搜尋</lable> <input type="text"><button>搜尋</button></div>
+			<div class="title2"><lable>搜尋</lable> <input type="text"><button>搜尋</button><font color="red"><h4>訪問人數:${count}</h4></font></div>
+			    
 				<c:forEach var="messageVO" items="${messageSvc.all}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 					<div class="maindiv">
 						<div class="col-xs-12 col-sm-3 divleft">

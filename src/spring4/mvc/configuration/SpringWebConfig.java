@@ -9,10 +9,13 @@ import org.springframework.validation.beanvalidation.MethodValidationPostProcess
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
+
+import com.interceptor.Counter;
 
 @Configuration
 @EnableWebMvc
@@ -62,12 +65,25 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter {
 	    return messageSource;
 	}
 	
+	//上傳檔案用
 	@Bean(name = "multipartResolver")
 	public CommonsMultipartResolver multipartResolver() {
 	    CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
 	    multipartResolver.setMaxUploadSize(100000);
 	    return new CommonsMultipartResolver();
 	}
+	
+	//攔截器
+    @Bean Counter counter(){
+        return new Counter();
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        super.addInterceptors(registry);
+    //定義攔截什麼請求
+       registry.addInterceptor(counter()).addPathPatterns("/message/index");
+    }
 	
 	
 }
