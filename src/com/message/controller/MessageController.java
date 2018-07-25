@@ -53,8 +53,10 @@ public class MessageController {
 	@ResponseBody 
 	@RequestMapping(method = RequestMethod.POST, value = "insert")
 	public Map<String, Object> insert(ModelMap model,HttpSession session,HttpServletRequest request,
-			/***************************1.接收請求參數 - 輸入格式的錯誤處理******************/
+			@RequestParam("requestURL") String requestURL,@RequestParam("whichPage") String whichPage,
+			@RequestParam("pageNumber") String pageNumber,
 			@Valid MessageVO messageVO,BindingResult result) {
+	    	/***************************1.接收請求參數 - 輸入格式的錯誤處理******************/
 			Map<String, Object> map = new HashMap<String, Object>();  
 			MemberVO memberVO = (MemberVO)session.getAttribute("memberVO");
 			if(memberVO == null){
@@ -75,6 +77,9 @@ public class MessageController {
 			messageSvc.addMessage(messageVO);
 			/***************************3.新增完成,準備轉交(Send the Success view)***********/
 			map.put("result", "success");
+			map.put("whichPage", whichPage);
+			map.put("requestURL", requestURL);
+			map.put("pageNumber", pageNumber);
 			return map;
 			
 		

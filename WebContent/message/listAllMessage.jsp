@@ -52,6 +52,9 @@
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default closeAddMessage" data-dismiss="modal">關閉</button>
 								<button id="addMessageBtn" type="button" class="btn btn-primary">新增留言</button>
+								<input type="hidden" name="requestURL" id="requestURL" tabindex="1" value="<%= request.getRequestURI()%>"> <%--傳送目前網址到controller --%>
+								<input type="hidden" name="whichPage" id="whichPage" tabindex="1" value="<%=whichPage%>">     <%--傳送目前頁數到controller --%>
+								<input type="hidden" name="pageNumber" id="pageNumber" tabindex="1" value="<%=pageNumber%>">  <%--傳送總頁數到controller --%>
 							</div>
 						</div>
 					</div>
@@ -157,7 +160,13 @@ $(document).ready(function(){
 		 $.ajax({
 			    type: "POST",
 			    url: "<%=request.getContextPath()%>/message/insert",
-			    data: "mes_title=" + $('#mes_title').val() + "&" + "mes_text=" + $('#mes_text').val(),
+			    data: {
+  		      	       mes_title :  $('#mes_title').val(),
+			    	   mes_text :  $('#mes_text').val(),
+			    	   requestURL : $('#requestURL').val(),
+			    	   whichPage : $('#whichPage').val(),
+			    	   pageNumber : $('#pageNumber').val()
+			    	  },
 				cache: false,
 				success: function(jsonData){
 					var returndata = eval(jsonData);
@@ -171,8 +180,9 @@ $(document).ready(function(){
 // 						window.location.replace(url);
 					}else{
 						toastr.success("留言新增成功");
-						$('.closeAddMessage').click();				
-						window.location.reload(); 	
+						$('.closeAddMessage').click();	
+						url=returndata.requestURL + "?whichPage=" + returndata.pageNumber;
+						window.location.replace(url);
 					}
 				
 				},
