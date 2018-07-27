@@ -91,7 +91,7 @@ public class MemberController {
 			}else if(inputfile.getSize() == 0){
 				model.addAttribute("errors", "請選擇一張照片");
 				return "member/joinMember";
-			}else if(checkMember != null){
+			}else if(checkMember.getMem_no() != null){
 				model.addAttribute("errors", "此帳號已申請過");
 				return "member/joinMember";
 			}
