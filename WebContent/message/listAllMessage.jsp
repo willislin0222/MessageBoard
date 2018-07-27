@@ -64,7 +64,7 @@
 				</c:if>
 				<c:if test="${memberVO ne null}">
 					<a href="<%=request.getContextPath()%>/member/logout">登出</a>|
-					<a href="<%=request.getContextPath()%>/member/getOneForUpdate?mem_no=${memberVO.mem_no}">修改密碼</a>
+					<a href="<%=request.getContextPath()%>/member/getOneForUpdate?mem_id=${memberVO.mem_id}">修改密碼</a>
 				</c:if>
 			<!-- a href="#">登入管理</a> -->|目前全部有<font color="red">${rowNumber}</font>筆留言</div>
 			<div class="title">目前每頁顯示<font color="red">${rowsPerPage}</font>則留言 所以分為<font color="red">${pageNumber}</font>頁 請選擇頁數 現在您在 
@@ -77,7 +77,7 @@
 			<div class="title2"><lable>搜尋</lable> <input type="text"><button>搜尋</button><font color="red"><h4>訪問人數:${count}</h4></font></div>
 			    
 				<c:forEach var="messageVO" items="${messageSvc.all}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
-					<div class="maindiv">
+					<div class="maindiv" ${(messageVO.mes_no==param.mes_no) ? 'style="background-color:#30FFFF;"':''}>
 						<div class="col-xs-12 col-sm-3 divleft">
 							 <img id="image"class="image" src="<%=request.getContextPath()%>/member/MemberPhoto?mem_id=${messageVO.memberVO.mem_id}"><br>
 							 <a href='#modal-id<%= count%>' data-toggle="modal" class="btn btn-primary button" role="button">我要回應</a>
@@ -104,11 +104,15 @@
 							 	
 							 	
 							 	
-							 	<c:if test="${memberVO.mem_id == messageVO.memberVO.mem_id or memberVO.mem_id.equals('admin')}">
-									 <br><br><a href="<%=request.getContextPath()%>/message/getupdate?mes_no=${messageVO.mes_no}" class="btn btn-primary button">修改留言</a>
+							 	<c:if test="${memberVO.mem_id == messageVO.memberVO.mem_id or memberVO.mem_id.equals('admin')}"><br><br>
+									      <FORM METHOD="POST" ACTION="<%=request.getContextPath()%>/message/getupdate">
+											  <input type="submit" value="修改留言" class="btn btn-primary">
+											  <input type="hidden" name="mes_no" value="${messageVO.mes_no}">
+											  <input type="hidden" name="whichPage"	value="<%=whichPage%>">               <!--送出當前是第幾頁給Controller-->
+										  </FORM>
 							 	</c:if>
 								<c:if test="${memberVO.mem_id.equals('admin')}">						 
-									 <br><br><a href="<%=request.getContextPath()%>/message/delete?mes_no=${messageVO.mes_no}" class="btn btn-primary button">刪除留言</a>
+									 <br><a href="<%=request.getContextPath()%>/message/delete?mes_no=${messageVO.mes_no}" class="btn btn-primary button">刪除留言</a>
 								</c:if>
 						</div>
 						<div class="col-xs-12 col-sm-9 divright">

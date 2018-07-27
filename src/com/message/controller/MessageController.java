@@ -103,7 +103,7 @@ public class MessageController {
 	}
 	
 	//取得修改資料
-	@RequestMapping(method = RequestMethod.GET, value = "getupdate")
+	@RequestMapping(method = RequestMethod.POST, value = "getupdate")
 	public String getupdate(ModelMap model,
 			/***************************1.接收請求參數 - 輸入格式的錯誤處理******************/
 			@RequestParam("mes_no") Integer mes_no) {
@@ -120,7 +120,7 @@ public class MessageController {
 	
 	//修改留言
 	@RequestMapping(method = RequestMethod.POST, value = "update")
-	public String update(ModelMap model,
+	public String  update(ModelMap model,@RequestParam("whichPage") String whichPage,
 			/***************************1.接收請求參數 - 輸入格式的錯誤處理******************/
 			@Valid MessageVO messageVO) {
 			/***************************2.開始取得修改除資料***************************************/

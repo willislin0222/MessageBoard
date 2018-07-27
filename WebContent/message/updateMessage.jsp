@@ -169,6 +169,7 @@
                     <form:input type="hidden" path="mes_no" id="mes_not" tabindex="1" value="${messageVO.mes_no}"/>
                     <form:input type="hidden" path="memberVO.mem_no" id="memberVO.mem_no" tabindex="1" value="${messageVO.memberVO.mem_no}"/>
                     <form:input type="hidden" path="mes_date" id="mes_date" tabindex="1" value="${messageVO.mes_date}"/>
+					<input type="hidden" name="whichPage"	value="<%=request.getParameter("whichPage")%>">               <!--送出當前是第幾頁給Controller-->
                   <div class="form-group">
                     <div class="row">
                       <div class="col-sm-6 col-sm-offset-3">
