@@ -92,7 +92,7 @@ public class ReplyMessageController {
 	}
 	
 	//刪除增回復
-	@RequestMapping(method = RequestMethod.GET, value = "delete")
+	@RequestMapping(method = RequestMethod.POST, value = "delete")
 	public String delete(ModelMap model,
 			/***************************1.接收請求參數 - 輸入格式的錯誤處理******************/
 			@RequestParam("rep_no") Integer rep_no) {

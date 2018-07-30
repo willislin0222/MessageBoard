@@ -112,7 +112,12 @@
 										  </FORM>
 							 	</c:if>
 								<c:if test="${memberVO.mem_id.equals('admin')}">						 
-									 <br><a href="<%=request.getContextPath()%>/message/delete?mes_no=${messageVO.mes_no}" class="btn btn-primary button">刪除留言</a>
+<%-- 									 <br><a href="<%=request.getContextPath()%>/message/delete?mes_no=${messageVO.mes_no}" class="btn btn-primary button">刪除留言</a> --%>
+									 <FORM METHOD="POST" ACTION="<%=request.getContextPath()%>/message/delete">
+										  <input type="submit" value="刪除留言" class="btn btn-primary">
+										  <input type="hidden" name="mes_no" value="${messageVO.mes_no}">
+										  <input type="hidden" name="whichPage"	value="<%=whichPage%>">               <!--送出當前是第幾頁給Controller-->
+									 </FORM>
 								</c:if>
 						</div>
 						<div class="col-xs-12 col-sm-9 divright">
@@ -138,8 +143,14 @@
 																		您確定要刪除此留言
 																	</div>
 																	<div class="modal-footer">
-																		<button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
-																		<a href="<%=request.getContextPath()%>/replymessage/delete?rep_no=${replymessageVO.rep_no}" class="btn btn-primary" role="button">確認</a>
+																		
+<%-- 																		<a href="<%=request.getContextPath()%>/replymessage/delete?rep_no=${replymessageVO.rep_no}" class="btn btn-primary" role="button">確認</a> --%>
+																		  <FORM METHOD="POST" ACTION="<%=request.getContextPath()%>/replymessage/delete">
+																			  <button type="button" class="btn btn-primary" data-dismiss="modal">關閉</button>
+																			  <input type="submit" value="確認" class="btn btn-primary">
+																			  <input type="hidden" name="rep_no" value="${replymessageVO.rep_no}">
+																			  <input type="hidden" name="whichPage"	value="<%=whichPage%>">               <!--送出當前是第幾頁給Controller-->
+																		  </FORM>
 																	</div>
 																</div>
 															</div>

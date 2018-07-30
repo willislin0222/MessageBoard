@@ -86,7 +86,7 @@ public class MessageController {
 	}
 	
 	//刪除留言
-	@RequestMapping(method = RequestMethod.GET, value = "delete")
+	@RequestMapping(method = RequestMethod.POST, value = "delete")
 	public String delete(ModelMap model,HttpSession session,
 			/***************************1.接收請求參數 - 輸入格式的錯誤處理******************/
 			@RequestParam("mes_no") Integer mes_no) {
