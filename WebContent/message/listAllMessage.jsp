@@ -127,10 +127,10 @@
 						     ================================
 								<div>
 									<c:forEach var="replymessageVO" items="${messageVO.replymessages}">
-										<div class="col-xs-12 col-sm-9 divright">
+										<div class="col-xs-12 col-sm-9 divright" ${(replymessageVO.rep_no==param.rep_no) ? 'style="background-color:#30FFFF;"':''}>
 										     <h4>${replymessageVO.memberVO.mem_id}於${replymessageVO.rep_date}回復說:
 										     	<c:if test="${memberVO.mem_id == replymessageVO.memberVO.mem_id or memberVO.mem_id.equals('admin')}">
-													<a href="<%=request.getContextPath()%>/replymessage/getupdate?rep_no=${replymessageVO.rep_no}" class="btn btn-primary button">修改留言</a>
+													<a href="<%=request.getContextPath()%>/replymessage/getupdate?rep_no=${replymessageVO.rep_no}&whichPage=${whichPage}" class="btn btn-primary button">修改留言</a>
 													<a href='#modal-id1' data-toggle="modal" class="btn btn-primary button">刪除</a>
 														<div class="modal fade" id="modal-id1">
 															<div class="modal-dialog">

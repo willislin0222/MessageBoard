@@ -164,6 +164,7 @@
                     <form:input type="hidden" path="memberVO.mem_no" id="memberVO.mem_no" tabindex="1" value="${replyMessageVO.memberVO.mem_no}"/>
                     <form:input type="hidden" path="messageVO.mes_no" id="messageVO.mes_no" tabindex="1" value="${replyMessageVO.messageVO.mes_no}"/>
                     <form:input type="hidden" path="rep_date" id="rep_date" tabindex="1" value="${replyMessageVO.rep_date}"/>
+                  	<input type="hidden" name="whichPage"	value="<%=request.getParameter("whichPage")%>">  
                   	<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="修改留言">
                   	<font size="3" style="color:red"><div id="checkid"></div></font>
                   </div>
