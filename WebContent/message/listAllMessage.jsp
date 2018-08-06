@@ -74,7 +74,20 @@
 					</c:forEach>
 				</select>
 			</div>
-			<div class="title2"><lable>搜尋</lable> <input type="text"><button>搜尋</button><font color="red"><h4>訪問人數:${count}</h4></font></div>
+			<div class="title2">
+				<form action="1234.jsp" method="POST">
+					<select name="type">
+						<option value="0">請選擇</option>
+						<option value="1">留言者</option>
+						<option value="2">留言內容</option>
+						<option value="3">回覆者</option>
+						<option value="4">回覆內容</option>
+					</select>
+					<input type="text" width="50%" name="serachtext" id="keyword" placeholder="請輸入搜尋內容">
+					<button class="btn btn-success" id="search_submit" type="submit">搜尋</button>
+				</form>
+				<font color="red"><h4>訪問人數:${count}</h4></font>
+			</div>
 			    
 				<c:forEach var="messageVO" items="${messageSvc.all}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 					<div class="maindiv" ${(messageVO.mes_no==param.mes_no) ? 'style="background-color:#30FFFF;"':''}>
