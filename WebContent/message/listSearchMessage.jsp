@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%> 
 <%@ page import="java.util.*"%>
 <%@ page import="com.message.model.*"%>
 <%@ page import="com.member.model.*"%>
@@ -28,7 +29,7 @@
 		<% int count=2;%>
 		<h1 class="text-center">Willis留言板！</h1>
 		<div class="container">
-			<%@ include file="page1.file" %>
+			<%@ include file="page3.file" %>
 			<div class="title"><a href='#modal-id' data-toggle="modal">我要留言</a>|
 				<div class="modal fade" id="modal-id">
 					<div class="modal-dialog">
@@ -86,11 +87,11 @@
 					<input type="text" width="50%" name="serachtext" id="keyword" placeholder="請輸入搜尋內容">
 					<button class="btn btn-success" id="search_submit" type="submit">搜尋</button>
 				</form>
-				<font color="red"><h4>訪問人數:${count}</h4></font>
+				<font color="red"><h4>訪問人數${Messagelist}:${count}</h4></font>
 			</div>
 			    
-				<c:forEach var="messageVO" items="${messageSvc.all}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
-					<div class="maindiv" ${(messageVO.mes_no==param.mes_no) ? 'style="background-color:#30FFFF;"':''}>
+				<c:forEach var="messageVO" items="${messagelist}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
+					<div class="maindiv">
 						<div class="col-xs-12 col-sm-3 divleft">
 							 <img id="image"class="image" src="<%=request.getContextPath()%>/member/MemberPhoto?mem_id=${messageVO.memberVO.mem_id}"><br>
 							 <a href='#modal-id<%= count%>' data-toggle="modal" class="btn btn-primary button" role="button">我要回應</a>
@@ -177,7 +178,7 @@
 						</div>
 					</div>
 				</c:forEach>
-			<%@ include file="page2.file" %>
+			<%@ include file="page4.file" %>
 		</div>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	</body>
@@ -210,6 +211,7 @@ $(document).ready(function(){
 						toastr.success("留言新增成功");
 						$('.closeAddMessage').click();	
 						url=returndata.requestURL + "?whichPage=" + returndata.pageNumber;
+						alert(url);
 						window.location.replace(url);
 					}
 				

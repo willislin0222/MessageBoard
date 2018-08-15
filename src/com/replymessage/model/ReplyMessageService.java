@@ -35,5 +35,8 @@ public class ReplyMessageService {
 		return dao.getAll();
 	}
 	
+	public List<ReplyMessageVO> getReplyMessageBySearchText(String searchtext){
+		return dao.getReplyMessageBySearchText(searchtext);
+	}
 	
 }

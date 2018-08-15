@@ -1,7 +1,10 @@
 package com.replymessage.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.orm.hibernate5.HibernateTemplate;
@@ -12,6 +15,7 @@ import com.message.model.MessageVO;
 public class ReplyMessageDAO implements ReplyMessageDAO_interface{
 
 	private static final String GET_ALL_STMT="From ReplyMessageVO";
+	private static final String GET_ALL_BYREP_TEXT="From ReplyMessageVO rep where rep.rep_text like ?";
 	
 	private HibernateTemplate hibernateTemplate;
 	public void setHibernateTemplate(HibernateTemplate hibernateTemplate) {
@@ -48,6 +52,16 @@ public class ReplyMessageDAO implements ReplyMessageDAO_interface{
 	public List<ReplyMessageVO> getAll() {
 		List<ReplyMessageVO> list = null;
 		list = (List<ReplyMessageVO>) hibernateTemplate.find(GET_ALL_STMT);
+		return list;
+	}
+	
+	@Override
+	public List<ReplyMessageVO> getReplyMessageBySearchText(String searchtext) {
+		List<ReplyMessageVO> list = new ArrayList<ReplyMessageVO>();
+		Session session = hibernateTemplate.getSessionFactory().getCurrentSession();
+		Query query = session.createQuery(GET_ALL_BYREP_TEXT);
+		query.setParameter(0, "%" + searchtext + "%");
+		list = query.list();
 		return list;
 	}
 	

@@ -1,18 +1,21 @@
 package com.message.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 
-import com.member.model.MemberVO;
 import com.replymessage.model.ReplyMessageVO;
 
 public class MessageDAO implements MessageDAO_interface{
 
-	private static final String GET_ALL_STMT="From MessageVO";
+	private static final String GET_ALL_BY_MESTEXT="From MessageVO m where m.mes_text like ? order by m.mes_date desc";
+	private static final String GET_ALL_STMT="From MessageVO mes order by mes.mes_date desc";
 	
 	private HibernateTemplate hibernateTemplate;
 	public void setHibernateTemplate(HibernateTemplate hibernateTemplate) {
@@ -58,6 +61,17 @@ public class MessageDAO implements MessageDAO_interface{
 	public Set<ReplyMessageVO> getReplyMessagesByMemno(Integer mes_no) {
 		Set<ReplyMessageVO> set = findPrimaryKey(mes_no).getReplymessages();
 		return set;
+	}
+	
+	@SuppressWarnings({ "deprecation", "unchecked" })
+	@Override
+	public List<MessageVO> getMessageBySearchText(String searchtext) {
+		List<MessageVO> list = new ArrayList<MessageVO>();
+		Session session = hibernateTemplate.getSessionFactory().getCurrentSession();
+		Query query = session.createQuery(GET_ALL_BY_MESTEXT);
+		query.setParameter(0, "%" + searchtext + "%");
+		list = query.list();
+		return list;
 	}
 	
 	public static void main(String[] args) {

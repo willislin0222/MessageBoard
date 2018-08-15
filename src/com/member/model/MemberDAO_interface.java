@@ -3,9 +3,11 @@ package com.member.model;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.transaction.annotation.Transactional;
 import com.message.model.MessageVO;
 import com.replymessage.model.ReplyMessageVO;
 
+@Transactional
 public interface MemberDAO_interface {
 	public void insert(MemberVO memberVO);
 	public void update(MemberVO memberVO);
@@ -21,4 +23,7 @@ public interface MemberDAO_interface {
     
     //查詢會員回復的留言紀錄(一對多)(回傳 Set)
     public Set<ReplyMessageVO> getReplyMessagesByMemno(Integer mem_no);
+    
+    //透過留言者查詢所有相關留言
+    public List<MemberVO> getMemberBySearchText(String searchtext);
 }

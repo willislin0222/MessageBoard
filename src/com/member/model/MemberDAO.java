@@ -1,9 +1,12 @@
 package com.member.model;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.orm.hibernate5.HibernateTemplate;
@@ -15,6 +18,7 @@ public class MemberDAO implements MemberDAO_interface{
 
 	private static final String GET_ALL_STMT="From MemberVO";
 	private static final String GET_ONE_BY_MEMID="From MemberVO where mem_id=?";
+	private static final String GET_ALL_BY_MEMID="From MemberVO where mem_id like ?";
 	
 	//spring hibernateTemplate
 	private HibernateTemplate hibernateTemplate;
@@ -74,6 +78,16 @@ public class MemberDAO implements MemberDAO_interface{
 			memberVO = amember;
 		}
 		return memberVO;
+	}
+	
+	@Override
+	public List<MemberVO> getMemberBySearchText(String searchtext) {
+		List<MemberVO> list = new ArrayList<MemberVO>();
+		Session session = hibernateTemplate.getSessionFactory().getCurrentSession();
+		Query query = session.createQuery(GET_ALL_BY_MEMID);
+		query.setParameter(0, "%" + searchtext + "%");
+		list = query.list();
+		return list;
 	}
 	
 	public static void main(String[] args) {

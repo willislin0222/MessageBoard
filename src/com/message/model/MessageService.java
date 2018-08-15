@@ -36,6 +36,10 @@ public class MessageService {
 		return dao.getAll();
 	}
 	
+	public List<MessageVO> getMessageBySearchText(String searchtext){
+		return dao.getMessageBySearchText(searchtext);
+	}
+	
 	public Set<ReplyMessageVO> getReplyMessagesByMemno(Integer mes_no) {
 		return dao.getReplyMessagesByMemno(mes_no);
 	}

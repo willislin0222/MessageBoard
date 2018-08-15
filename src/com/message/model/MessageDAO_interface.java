@@ -16,4 +16,7 @@ public interface MessageDAO_interface {
 	
 	//查詢留言所有回復留言紀錄(一對多)(回傳 Set)
     public Set<ReplyMessageVO> getReplyMessagesByMemno(Integer mes_no);
+    
+    //透過留言內容搜尋所有相關留言
+    public List<MessageVO> getMessageBySearchText(String searchtext);
 }

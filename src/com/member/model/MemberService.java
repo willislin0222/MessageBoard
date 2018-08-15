@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.message.model.MessageVO;
 import com.replymessage.model.ReplyMessageVO;
@@ -35,6 +36,10 @@ public class MemberService {
 	
 	public List<MemberVO> getAll(){
 		return dao.getAll();
+	}
+	
+	public List<MemberVO> getMemberBySearchText(String searchtext){
+		return dao.getMemberBySearchText(searchtext);
 	}
 	
 	public Set<MessageVO> getMessagesByMemno(Integer mem_no){

@@ -2,7 +2,15 @@ package com.message.controller;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,11 +24,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.member.model.MemberService;
 import com.member.model.MemberVO;
 import com.message.model.MessageService;
 import com.message.model.MessageVO;
+import com.replymessage.model.ReplyMessageService;
+import com.replymessage.model.ReplyMessageVO;
 
 @Controller
 @RequestMapping("/message")
@@ -76,10 +87,11 @@ public class MessageController {
 			messageVO.setMes_date(new Timestamp(System.currentTimeMillis()));
 			messageSvc.addMessage(messageVO);
 			/***************************3.新增完成,準備轉交(Send the Success view)***********/
+			requestURL = request.getContextPath() + "/message/listAllMessage.jsp";
 			map.put("result", "success");
 			map.put("whichPage", whichPage);
 			map.put("requestURL", requestURL);
-			map.put("pageNumber", pageNumber);
+			map.put("pageNumber", 1);
 			return map;
 			
 		
@@ -157,6 +169,67 @@ public class MessageController {
 			session.setAttribute("memberVO", memberVO);
 			return "message/listAllMessage";
 		}
+			
+	}
+	
+	//透過搜尋條件找出所有符合的留言清單
+	@RequestMapping(method = RequestMethod.POST, value ="searchMessages")
+	public ModelAndView searchMessages(ModelMap model,HttpSession session, 
+			/***************************1.接收請求參數 - 輸入格式的錯誤處理******************/
+			@RequestParam("searchselect") String searchselect,
+			@RequestParam("serachtext") String searchtext) throws IOException{
+		/***************************2.開始查詢資料***************************************/
+		MemberService memberSvc = new MemberService();
+		MessageService messageSvc = new MessageService();
+		ReplyMessageService replymessageSvc = new ReplyMessageService();
+		/***************************3.新增完成,準備轉交(Send the Success view)***********/
+		
+		List<MemberVO> memlist =new ArrayList<MemberVO>();
+		List<MessageVO> meslist =new ArrayList<MessageVO>();
+		List<ReplyMessageVO> reslist =new ArrayList<ReplyMessageVO>();
+		List<MessageVO> messagelist =new ArrayList<MessageVO>();
+		if (searchselect.equals("1")){
+			memlist = memberSvc.getMemberBySearchText(searchtext);
+			for(MemberVO member : memlist){
+				meslist.addAll(member.getMessages());
+			}
+		}else if(searchselect.equals("2")){
+			meslist = messageSvc.getMessageBySearchText(searchtext);
+		}else if(searchselect.equals("3")){
+			memlist = memberSvc.getMemberBySearchText(searchtext);
+			for(MemberVO member : memlist){
+				reslist.addAll(member.getReplymessages());
+			}
+			for(ReplyMessageVO replymessage : reslist){
+				meslist.add(replymessage.getMessageVO());
+			}
+			//將meslist做排序
+			Collections.sort(meslist,  new Comparator<MessageVO>(){
+				public int compare(MessageVO o1, MessageVO o2) {
+					// TODO Auto-generated method stub
+					return o2.getMes_date().compareTo(o1.getMes_date());
+				}
+				
+			});
+		}else if (searchselect.equals("4")){
+			reslist = replymessageSvc.getReplyMessageBySearchText(searchtext);
+			for(ReplyMessageVO replymessage : reslist){
+				meslist.add(replymessage.getMessageVO());
+			}
+			//將meslist做排序
+			Collections.sort(meslist,  new Comparator<MessageVO>(){
+				public int compare(MessageVO o1, MessageVO o2) {
+					// TODO Auto-generated method stub
+					return o2.getMes_date().compareTo(o1.getMes_date());
+				}
+				
+			});
+			
+		}else{
+			meslist = messageSvc.getAll();
+		}
+		session.setAttribute("messagelist", meslist);
+		return new ModelAndView("message/listSearchMessage","messagelist",meslist);
 			
 	}
 
