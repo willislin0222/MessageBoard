@@ -10,8 +10,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -185,24 +187,45 @@ public class MessageController {
 		/***************************3.新增完成,準備轉交(Send the Success view)***********/
 		
 		List<MemberVO> memlist =new ArrayList<MemberVO>();
+		Set<MessageVO> mesSet =new HashSet<MessageVO>();
 		List<MessageVO> meslist =new ArrayList<MessageVO>();
 		List<ReplyMessageVO> reslist =new ArrayList<ReplyMessageVO>();
-		List<MessageVO> messagelist =new ArrayList<MessageVO>();
+		
 		if (searchselect.equals("1")){
 			memlist = memberSvc.getMemberBySearchText(searchtext);
 			for(MemberVO member : memlist){
-				meslist.addAll(member.getMessages());
+				mesSet.addAll(member.getMessages());
 			}
+			meslist.addAll(mesSet);
+			//將meslist做排序
+			Collections.sort(meslist,  new Comparator<MessageVO>(){
+				public int compare(MessageVO o1, MessageVO o2) {
+					// TODO Auto-generated method stub
+					return o2.getMes_date().compareTo(o1.getMes_date());
+				}
+				
+			});
 		}else if(searchselect.equals("2")){
-			meslist = messageSvc.getMessageBySearchText(searchtext);
+			mesSet.addAll(messageSvc.getMessageBySearchText(searchtext));
+			meslist.addAll(mesSet);
+			//將meslist做排序
+			Collections.sort(meslist,  new Comparator<MessageVO>(){
+				public int compare(MessageVO o1, MessageVO o2) {
+					// TODO Auto-generated method stub
+					return o2.getMes_date().compareTo(o1.getMes_date());
+				}
+				
+			});
 		}else if(searchselect.equals("3")){
 			memlist = memberSvc.getMemberBySearchText(searchtext);
 			for(MemberVO member : memlist){
 				reslist.addAll(member.getReplymessages());
 			}
 			for(ReplyMessageVO replymessage : reslist){
-				meslist.add(replymessage.getMessageVO());
+				mesSet.add(replymessage.getMessageVO());
 			}
+			
+			meslist.addAll(mesSet);
 			//將meslist做排序
 			Collections.sort(meslist,  new Comparator<MessageVO>(){
 				public int compare(MessageVO o1, MessageVO o2) {
@@ -216,6 +239,8 @@ public class MessageController {
 			for(ReplyMessageVO replymessage : reslist){
 				meslist.add(replymessage.getMessageVO());
 			}
+			
+			meslist.addAll(mesSet);
 			//將meslist做排序
 			Collections.sort(meslist,  new Comparator<MessageVO>(){
 				public int compare(MessageVO o1, MessageVO o2) {
@@ -226,7 +251,7 @@ public class MessageController {
 			});
 			
 		}else{
-			meslist = messageSvc.getAll();
+			meslist.addAll(messageSvc.getAll());
 		}
 		session.setAttribute("messagelist", meslist);
 		return new ModelAndView("message/listSearchMessage","messagelist",meslist);

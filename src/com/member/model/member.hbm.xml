@@ -14,7 +14,7 @@
         <property name="mem_joindate" column="mem_joindate" />
         <property name="mem_photo" column="mem_photo" />
 
-		<set name="messages" table="message" lazy="false" cascade="delete"  inverse="true">			
+		<set name="messages" table="message" lazy="false" cascade="delete"  inverse="true" order-by="mes_date desc">			
 			<key>
 				<column name="mem_no" />
 			</key>
