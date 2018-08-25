@@ -83,7 +83,7 @@
 						<option value="3">回覆者</option>
 						<option value="4">回覆內容</option>
 					</select>
-					<input type="text" width="50%" name="serachtext" id="keyword" placeholder="請輸入搜尋內容">
+					<input type="text" width="50%" name="searchtext" id="keyword" placeholder="請輸入搜尋內容">
 					<button class="btn btn-success" id="search_submit" type="submit">搜尋</button>
 				</form>
 				<font color="red"><h4>訪問人數:${count}</h4></font>
@@ -228,7 +228,10 @@ function addReplyMessage(mes_no,count){
 	    url: "<%=request.getContextPath()%>/replymessage/insert",
 	    data:{ 
 	    		rep_text : $('#rep_text' + count).val(),
-	    		mes_no : mes_no
+	    		mes_no : mes_no,
+	    		requestURL : $('#requestURL').val(),
+		    	whichPage : $('#whichPage').val(),
+		    	pageNumber : $('#pageNumber').val()
 	    
 	    	 },
 		cache: false,

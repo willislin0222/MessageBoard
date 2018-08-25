@@ -180,13 +180,15 @@ public class MessageController {
 	public ModelAndView searchMessages(ModelMap model,HttpSession session, 
 			/***************************1.接收請求參數 - 輸入格式的錯誤處理******************/
 			@RequestParam("searchselect") String searchselect,
-			@RequestParam("serachtext") String searchtext) throws IOException{
+			@RequestParam("searchtext") String searchtext) throws IOException{
 		/***************************2.開始查詢資料***************************************/
 		List<MessageVO> meslist =new ArrayList<MessageVO>();
 		SearchMessage searchMessage = new SearchMessage();
 		meslist = searchMessage.searchMessageBySeacrhtext(searchtext, searchselect);
 		/***************************3.新增完成,準備轉交(Send the Success view)***********/
 		session.setAttribute("messagelist", meslist);
+		session.setAttribute("searchselect", searchselect);
+		session.setAttribute("searchtext", searchtext);
 		return new ModelAndView("message/listSearchMessage","messagelist",meslist);
 			
 	}

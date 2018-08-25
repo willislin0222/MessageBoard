@@ -2,7 +2,9 @@ package com.replymessage.controller;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.annotation.MultipartConfig;
@@ -23,6 +25,7 @@ import com.member.model.MemberVO;
 import com.message.model.MessageVO;
 import com.replymessage.model.ReplyMessageService;
 import com.replymessage.model.ReplyMessageVO;
+import com.searchMessage.SearchMessage;
 
 @Controller
 @MultipartConfig
@@ -64,6 +67,8 @@ public class ReplyMessageController {
 	@ResponseBody
 	@RequestMapping(method = RequestMethod.POST, value = "insert")
 	public Map<String,Object> insert(ModelMap model,HttpServletRequest request,HttpSession session,
+			@RequestParam("requestURL") String requestURL,@RequestParam("whichPage") String whichPage,
+			@RequestParam("pageNumber") String pageNumber,
 			/***************************1.接收請求參數 - 輸入格式的錯誤處理******************/
 			@RequestParam("mes_no") Integer mes_no,@Valid ReplyMessageVO replyMessageVO,BindingResult result) {
 			Map<String, Object> map = new HashMap<String, Object>();  
@@ -86,6 +91,20 @@ public class ReplyMessageController {
 			replyMessageVO.setRep_date(replydata);
 			replyMessageSvc.addReplyMessage(replyMessageVO);
 			/***************************3.新增完成,準備轉交(Send the Success view)***********/
+			List<MessageVO> meslist =new ArrayList<MessageVO>();
+			SearchMessage searchMessage = new SearchMessage();
+			String searchtext = null;
+			String searchselect = null;
+			if(requestURL.equals(request.getContextPath() + "/message/listSearchMessage.jsp")){
+				searchselect = (String) session.getAttribute("searchselect");
+				searchtext = (String) session.getAttribute("searchtext");
+				meslist = searchMessage.searchMessageBySeacrhtext(searchtext, searchselect);
+				map.put("result", "success");
+				map.put("whichPage", whichPage);
+				map.put("requestURL", requestURL);
+				map.put("pageNumber", pageNumber);
+				session.setAttribute("messagelist", meslist);
+			}
 			return map;
 			
 			

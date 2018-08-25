@@ -27,7 +27,7 @@
 <!-- 		使用JavaBean -->
 		<jsp:useBean id="messageSvc" class="com.message.model.MessageService" scope="request" />
 		<% int count=2;%>
-		<h1 class="text-center">Willis留言板！</h1>
+		<h1 class="text-center">Willis留言板！${searchselect}-${searchtext}</h1>
 		<div class="container">
 			<%@ include file="page3.file" %>
 			<div class="title"><a href='#modal-id' data-toggle="modal">我要留言</a>|
@@ -84,7 +84,7 @@
 						<option value="3">回覆者</option>
 						<option value="4">回覆內容</option>
 					</select>
-					<input type="text" width="50%" name="serachtext" id="keyword" placeholder="請輸入搜尋內容">
+					<input type="text" width="50%" name="searchtext" id="keyword" placeholder="請輸入搜尋內容">
 					<button class="btn btn-success" id="search_submit" type="submit">搜尋</button>
 				</form>
 				<font color="red"><h4>訪問人數${Messagelist}:${count}</h4></font>
@@ -211,7 +211,6 @@ $(document).ready(function(){
 						toastr.success("留言新增成功");
 						$('.closeAddMessage').click();	
 						url=returndata.requestURL + "?whichPage=" + returndata.pageNumber;
-						alert(url);
 						window.location.replace(url);
 					}
 				
@@ -230,7 +229,10 @@ function addReplyMessage(mes_no,count){
 	    url: "<%=request.getContextPath()%>/replymessage/insert",
 	    data:{ 
 	    		rep_text : $('#rep_text' + count).val(),
-	    		mes_no : mes_no
+	    		mes_no : mes_no,
+	    		requestURL : $('#requestURL').val(),
+		    	whichPage : $('#whichPage').val(),
+		    	pageNumber : $('#pageNumber').val()
 	    
 	    	 },
 		cache: false,
@@ -245,7 +247,9 @@ function addReplyMessage(mes_no,count){
 //					window.location.replace(url);
 			}else{
 				toastr.success("留言回復成功");
-				$('.closeAddMessage').click();				
+				$('.closeAddMessage').click();	
+				url=returndata.requestURL + "?whichPage=" + returndata.pageNumber;
+				window.location.replace(url);
 				window.location.reload(); 	
 			}
 		
