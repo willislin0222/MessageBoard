@@ -156,10 +156,10 @@
             <div class="row">
               <div class="col-lg-12">
 				<form:form  action="update"  modelAttribute="messageVO">
+				  <font size="3" style="color:red"><form:errors path="*" cssClass="errorblock" element="div" /></font>
                   <div class="form-group">
                     <label for="ID">標題</label>
                     <form:input type="text" path="mes_title" id="mes_title" tabindex="1" value="${messageVO.mes_title}"/>
-                  	<font size="3" style="color:red"><div id="checkid"></div></font>
                   </div>
                   
                   <div class="form-group">

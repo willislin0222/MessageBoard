@@ -162,7 +162,10 @@ public class ReplyMessageController {
 	@RequestMapping(method = RequestMethod.POST, value = "update")
 	public String update(ModelMap model,@RequestParam("requestURL") String requestURL,HttpSession session,
 			/***************************1.接收請求參數 - 輸入格式的錯誤處理******************/
-			HttpServletRequest request,@Valid ReplyMessageVO ReplyMessageVO) {
+			HttpServletRequest request,@Valid ReplyMessageVO ReplyMessageVO,BindingResult result) {
+			if(result.hasErrors()){
+				return "replymessage/upateReplyMessage";
+			}
 			/***************************2.開始取得修改除資料***************************************/
 			ReplyMessageService replyMessageSvc = new ReplyMessageService();
 			replyMessageSvc.updateReplyMessage(ReplyMessageVO);

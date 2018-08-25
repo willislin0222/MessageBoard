@@ -32,7 +32,7 @@ public class ReplyMessageVO {
 		this.messageVO = messageVO;
 	}
 	
-	@NotEmpty(message="回應內容: 請勿空白")
+	@NotEmpty(message="回覆內容: 請勿空白")
 	public String getRep_text() {
 		return rep_text;
 	}

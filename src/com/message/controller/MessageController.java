@@ -150,7 +150,10 @@ public class MessageController {
 	public String  update(ModelMap model,@RequestParam("whichPage") String whichPage,
 			HttpServletRequest request,HttpSession session,
 			/***************************1.接收請求參數 - 輸入格式的錯誤處理******************/
-			@RequestParam("requestURL") String requestURL,@Valid MessageVO messageVO) {
+			@RequestParam("requestURL") String requestURL,@Valid MessageVO messageVO,BindingResult result) {
+			if(result.hasErrors()){
+				return "message/updateMessage";
+			}
 			/***************************2.開始取得修改除資料***************************************/
 			MessageService MessageSvc = new MessageService();
 			MessageSvc.updateMessage(messageVO);

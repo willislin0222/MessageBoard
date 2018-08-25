@@ -142,7 +142,7 @@
           <div class="panel-heading">
             <div class="row">
               <div class="col-xs-6">
-               <a href="#" class="active" id="login-form-link">輸入回復資料</a>
+               <a href="#" class="active" id="login-form-link">輸入回覆資料</a>
               </div>
               
             </div>
@@ -156,9 +156,10 @@
             <div class="row">
               <div class="col-lg-12">
 <!--               modelAttribute="replymessageVO"此程式為將FORM表單封裝成replymessageVO 傳送出的表單在後台可以使用@Valid ReplyMessageVO replyMessageVO來取得整個ReplyMessageVO物件-->
-				<form:form  action="update" modelAttribute="replyMessageVO">   
+				<form:form  action="update" modelAttribute="replyMessageVO"> 
+				  <font size="3" style="color:red"><form:errors path="*" cssClass="errorblock" element="div" /></font>  
                   <div class="form-group">
-                    <label for="ID">修改回覆內容</label>
+                    <label for="ID">修改回覆內容:</label>
                     <form:input type="text" path="rep_text" id="rep_text" tabindex="1" value="${replyMessageVO.rep_text}"/>
                     <form:input type="hidden" path="rep_no" id="rep_no" tabindex="1" value="${replyMessageVO.rep_no}"/>
                     <form:input type="hidden" path="memberVO.mem_no" id="memberVO.mem_no" tabindex="1" value="${replyMessageVO.memberVO.mem_no}"/>
