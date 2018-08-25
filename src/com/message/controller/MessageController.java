@@ -102,9 +102,9 @@ public class MessageController {
 	
 	//刪除留言
 	@RequestMapping(method = RequestMethod.POST, value = "delete")
-	public String delete(ModelMap model,HttpSession session,
+	public String delete(ModelMap model,HttpSession session,HttpServletRequest request,
 			/***************************1.接收請求參數 - 輸入格式的錯誤處理******************/
-			@RequestParam("mes_no") Integer mes_no) {
+			@RequestParam("requestURL") String requestURL,@RequestParam("mes_no") Integer mes_no) {
 			/***************************2.開始新增資料***************************************/
 			MessageService messageSvc = new MessageService();
 			MessageVO messageVO = messageSvc.findPrimaryKey(mes_no);
@@ -112,6 +112,17 @@ public class MessageController {
 				messageSvc.delete(mes_no);
 			}
 			/***************************3.新增完成,準備轉交(Send the Success view)***********/
+			List<MessageVO> meslist =new ArrayList<MessageVO>();
+			SearchMessage searchMessage = new SearchMessage();
+			String searchtext = null;
+			String searchselect = null;
+			if(requestURL.equals(request.getContextPath() + "/message/listSearchMessage.jsp")){
+				searchselect = (String) session.getAttribute("searchselect");
+				searchtext = (String) session.getAttribute("searchtext");
+				meslist = searchMessage.searchMessageBySeacrhtext(searchtext, searchselect);
+				session.setAttribute("messagelist", meslist);
+				return "message/listSearchMessage";
+			}
 			return "message/listAllMessage";
 		
 		
