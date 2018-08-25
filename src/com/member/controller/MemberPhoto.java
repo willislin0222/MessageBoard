@@ -18,20 +18,19 @@ public class MemberPhoto extends HttpServlet {
 		res.setContentType("image/gif");
 		ServletOutputStream out = res.getOutputStream();
 
-			try {
 				String mem_id=req.getParameter("mem_id");
 				MemberService memberSvc = new MemberService();
-				MemberVO memberVO = memberSvc.fingByMemid(mem_id);
+				MemberVO memberVO = memberSvc.fingByMemid(new String(mem_id));
 				byte[] buf = memberVO.getMem_photo();
-				out.write(buf);
-	
-			} catch (Exception e) {
-				InputStream in = getServletContext().getResourceAsStream("/images/nopic.jpg");
-				byte[] buf = new byte[in.available()];
-				in.read(buf);
-				out.write(buf);
-				in.close();
-			}
-
+				if(!(buf.length == 0)){
+					out.write(buf);
+				}else{
+					InputStream in = getServletContext().getResourceAsStream("/images/nopic.jpg");
+					buf = new byte[in.available()];
+					in.read(buf);
+					out.write(buf);
+					in.close();
+				}
 	}
+				
 }

@@ -88,9 +88,6 @@ public class MemberController {
 			checkMember = memberSvc.fingByMemid(memberVO.getMem_id());
 			if(result.hasErrors()){
 				return "member/joinMember";
-			}else if(inputfile.getSize() == 0){
-				model.addAttribute("errors", "請選擇一張照片");
-				return "member/joinMember";
 			}else if(checkMember.getMem_no() != null){
 				model.addAttribute("errors", "此帳號已申請過");
 				return "member/joinMember";
