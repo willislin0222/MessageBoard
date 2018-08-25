@@ -145,9 +145,9 @@
 										<div class="col-xs-12 col-sm-9 divright" ${(replymessageVO.rep_no==param.rep_no) ? 'style="background-color:#30FFFF;"':''}>
 										     <h4>${replymessageVO.memberVO.mem_id}於${replymessageVO.rep_date}回復說:
 										     	<c:if test="${memberVO.mem_id == replymessageVO.memberVO.mem_id or memberVO.mem_id.equals('admin')}">
-													<a href="<%=request.getContextPath()%>/replymessage/getupdate?rep_no=${replymessageVO.rep_no}&whichPage=${whichPage}" class="btn btn-primary button">修改留言</a>
-													<a href='#modal-id1' data-toggle="modal" class="btn btn-primary button">刪除</a>
-														<div class="modal fade" id="modal-id1">
+													<a href="<%=request.getContextPath()%>/replymessage/getupdate?rep_no=${replymessageVO.rep_no}&whichPage=${whichPage}&requestURL=<%=request.getRequestURI()%>" class="btn btn-primary button">修改回覆</a>
+													<a href='#modal-id<%= count%>' data-toggle="modal" class="btn btn-primary button">刪除回覆</a>
+														<div class="modal fade" id="modal-id<%= count++%>">
 															<div class="modal-dialog">
 																<div class="modal-content">
 																	<div class="modal-header">
@@ -165,6 +165,7 @@
 																			  <input type="submit" value="確認" class="btn btn-primary">
 																			  <input type="hidden" name="rep_no" value="${replymessageVO.rep_no}">
 																			  <input type="hidden" name="whichPage"	value="<%=whichPage%>">               <!--送出當前是第幾頁給Controller-->
+																		  	  <input type="hidden" name="requestURL" id="requestURL" tabindex="1" value="<%= request.getRequestURI()%>"> <%--傳送目前網址到controller --%>
 																		  </FORM>
 																	</div>
 																</div>

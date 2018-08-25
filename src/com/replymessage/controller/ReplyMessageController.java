@@ -112,9 +112,9 @@ public class ReplyMessageController {
 	
 	//刪除增回復
 	@RequestMapping(method = RequestMethod.POST, value = "delete")
-	public String delete(ModelMap model,
+	public String delete(ModelMap model,@RequestParam("requestURL") String requestURL,HttpServletRequest request,
 			/***************************1.接收請求參數 - 輸入格式的錯誤處理******************/
-			@RequestParam("rep_no") Integer rep_no) {
+			HttpSession session,@RequestParam("rep_no") Integer rep_no) {
 			/***************************2.開始刪除資料***************************************/
 			ReplyMessageService replyMessageSvc = new ReplyMessageService();
 			ReplyMessageVO replyMmessageVO = replyMessageSvc.findPrimaryKey(rep_no);
@@ -122,14 +122,28 @@ public class ReplyMessageController {
 				replyMessageSvc.delete(rep_no);
 			}
 			/***************************3.新增完成,準備轉交(Send the Success view)***********/
-			return "message/listAllMessage";
+			List<MessageVO> meslist =new ArrayList<MessageVO>();
+			SearchMessage searchMessage = new SearchMessage();
+			String searchtext = null;
+			String searchselect = null;
+			String URL = null;
+			if(requestURL.equals(request.getContextPath() + "/message/listSearchMessage.jsp")){
+				searchselect = (String) session.getAttribute("searchselect");
+				searchtext = (String) session.getAttribute("searchtext");
+				meslist = searchMessage.searchMessageBySeacrhtext(searchtext, searchselect);
+				session.setAttribute("messagelist", meslist);
+				URL = "message/listSearchMessage";
+			}else{
+				URL = "message/listAllMessage";
+			}
+			return URL;
 			
 			
 	}
 	
 	//取得修改資料
 	@RequestMapping(method = RequestMethod.GET, value = "getupdate")
-	public String getupdate(ModelMap model,
+	public String getupdate(ModelMap model,@RequestParam("requestURL") String requestURL,
 			/***************************1.接收請求參數 - 輸入格式的錯誤處理******************/
 			@RequestParam("rep_no") Integer rep_no) {
 			/***************************2.開始取得修改除資料***************************************/
@@ -137,6 +151,7 @@ public class ReplyMessageController {
 			ReplyMessageVO replyMessageVO = new ReplyMessageVO();
 			replyMessageVO = replyMessageSvc.findPrimaryKey(rep_no);
 			model.addAttribute("replyMessageVO", replyMessageVO);
+			model.addAttribute("requestURL", requestURL);
 			/***************************3.新增完成,準備轉交(Send the Success view)***********/
 			return "replymessage/upateReplyMessage";
 			
@@ -145,15 +160,29 @@ public class ReplyMessageController {
 	
 	//修改資料
 	@RequestMapping(method = RequestMethod.POST, value = "update")
-	public String update(ModelMap model,
+	public String update(ModelMap model,@RequestParam("requestURL") String requestURL,HttpSession session,
 			/***************************1.接收請求參數 - 輸入格式的錯誤處理******************/
-			@Valid ReplyMessageVO ReplyMessageVO) {
+			HttpServletRequest request,@Valid ReplyMessageVO ReplyMessageVO) {
 			/***************************2.開始取得修改除資料***************************************/
 			ReplyMessageService replyMessageSvc = new ReplyMessageService();
 			replyMessageSvc.updateReplyMessage(ReplyMessageVO);
 			model.addAttribute("ReplyMessageVO", ReplyMessageVO);
 			/***************************3.新增完成,準備轉交(Send the Success view)***********/
-			return "message/listAllMessage";
+			List<MessageVO> meslist =new ArrayList<MessageVO>();
+			SearchMessage searchMessage = new SearchMessage();
+			String searchtext = null;
+			String searchselect = null;
+			String URL = null;
+			if(requestURL.equals(request.getContextPath() + "/message/listSearchMessage.jsp")){
+				searchselect = (String) session.getAttribute("searchselect");
+				searchtext = (String) session.getAttribute("searchtext");
+				meslist = searchMessage.searchMessageBySeacrhtext(searchtext, searchselect);
+				session.setAttribute("messagelist", meslist);
+				URL = "message/listSearchMessage";
+			}else{
+				URL = "message/listAllMessage";
+			}
+			return URL;
 			
 			
 	}

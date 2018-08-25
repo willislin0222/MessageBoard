@@ -73,7 +73,7 @@ public class SearchMessage {
 		}else if (searchselect.equals("4")){
 			reslist = replymessageSvc.getReplyMessageBySearchText(searchtext);
 			for(ReplyMessageVO replymessage : reslist){
-				meslist.add(replymessage.getMessageVO());
+				mesSet.add(replymessage.getMessageVO());
 			}
 			
 			meslist.addAll(mesSet);
