@@ -121,6 +121,7 @@
 									      <FORM METHOD="POST" ACTION="<%=request.getContextPath()%>/message/getupdate">
 											  <input type="submit" value="修改留言" class="btn btn-primary">
 											  <input type="hidden" name="mes_no" value="${messageVO.mes_no}">
+											  <input type="hidden" name="requestURL" id="requestURL" tabindex="1" value="<%= request.getRequestURI()%>"> <%--傳送目前網址到controller --%>
 											  <input type="hidden" name="whichPage"	value="<%=whichPage%>">               <!--送出當前是第幾頁給Controller-->
 										  </FORM>
 							 	</c:if>

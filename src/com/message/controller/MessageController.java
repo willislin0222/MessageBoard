@@ -119,7 +119,7 @@ public class MessageController {
 	
 	//取得修改資料
 	@RequestMapping(method = RequestMethod.POST, value = "getupdate")
-	public String getupdate(ModelMap model,
+	public String getupdate(ModelMap model,@RequestParam("requestURL") String requestURL,
 			/***************************1.接收請求參數 - 輸入格式的錯誤處理******************/
 			@RequestParam("mes_no") Integer mes_no) {
 			/***************************2.開始取得修改除資料***************************************/
@@ -127,6 +127,7 @@ public class MessageController {
 			MessageVO messageVO = new MessageVO();
 			messageVO = MessageSvc.findPrimaryKey(mes_no);
 			model.addAttribute("messageVO", messageVO);
+			model.addAttribute("requestURL", requestURL);
 			/***************************3.新增完成,準備轉交(Send the Success view)***********/
 			return "message/updateMessage";
 			
@@ -136,13 +137,25 @@ public class MessageController {
 	//修改留言
 	@RequestMapping(method = RequestMethod.POST, value = "update")
 	public String  update(ModelMap model,@RequestParam("whichPage") String whichPage,
+			HttpServletRequest request,HttpSession session,
 			/***************************1.接收請求參數 - 輸入格式的錯誤處理******************/
-			@Valid MessageVO messageVO) {
+			@RequestParam("requestURL") String requestURL,@Valid MessageVO messageVO) {
 			/***************************2.開始取得修改除資料***************************************/
 			MessageService MessageSvc = new MessageService();
 			MessageSvc.updateMessage(messageVO);
 			model.addAttribute("messageVO", messageVO);
 			/***************************3.新增完成,準備轉交(Send the Success view)***********/
+			List<MessageVO> meslist =new ArrayList<MessageVO>();
+			SearchMessage searchMessage = new SearchMessage();
+			String searchtext = null;
+			String searchselect = null;
+			if(requestURL.equals(request.getContextPath() + "/message/listSearchMessage.jsp")){
+				searchselect = (String) session.getAttribute("searchselect");
+				searchtext = (String) session.getAttribute("searchtext");
+				meslist = searchMessage.searchMessageBySeacrhtext(searchtext, searchselect);
+				session.setAttribute("messagelist", meslist);
+				return "message/listSearchMessage";
+			}
 			return "message/listAllMessage";
 			
 			
